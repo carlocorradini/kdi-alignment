@@ -2,12 +2,10 @@ mod kdigtfs;
 
 use chrono::NaiveTime;
 use env_logger::{Builder, Target};
-use gtfs_structures::{Gtfs, Stop};
+use gtfs_structures::{Gtfs};
 use log::{debug, info, LevelFilter};
-use std::collections::hash_map::RandomState;
 use std::fs;
-use std::sync::Arc;
-use std::{collections::HashMap, error::Error};
+use std::{error::Error};
 
 use crate::kdigtfs::{
     KdiAgency, KdiCalendar, KdiCalendarException, KdiExceptionEnum, KdiRoute, KdiStop, KdiStopEnum,
