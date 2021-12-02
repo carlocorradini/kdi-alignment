@@ -1,6 +1,6 @@
 mod kdigtfs;
 
-use chrono::{NaiveTime, Utc};
+use chrono::{NaiveTime};
 use env_logger::{Builder, Target};
 use gtfs_structures::Gtfs;
 use log::{debug, info, LevelFilter};
