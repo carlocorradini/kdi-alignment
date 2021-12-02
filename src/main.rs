@@ -1,14 +1,14 @@
 mod kdigtfs;
 
-use chrono::NaiveTime;
+use chrono::{NaiveDate, NaiveTime};
 use env_logger::{Builder, Target};
 use gtfs_structures::Gtfs;
-use kdigtfs::{KdiDirectionEnum, KdiTrip};
+use kdigtfs::{KdiDirectionEnum, KdiStopTime, KdiTrip};
 use log::{debug, info, LevelFilter};
 use serde_json::json;
+use std::error::Error;
 use std::fmt::Display;
 use std::fs;
-use std::{error::Error};
 use strum::VariantNames;
 
 use crate::kdigtfs::{
@@ -92,6 +92,20 @@ fn main() -> Result<(), Box<dyn Error>> {
     fs::write(
         format!("{}/stop.json", ALIGNEMENT_DIR),
         serde_json::to_string(&stops)?,
+    )?;
+
+    // stop_times.txt
+    info!("Aligning `stop_times.txt`");
+    let mut stop_times: Vec<KdiStopTime> = Vec::new();
+
+    debug!("Aligning extraurban `stop_times.txt`");
+    align_stop_times(&gtfs_extraurban, &mut stop_times, TT::ExtraUrban)?;
+    debug!("Aligning urban `stop_times.txt`");
+    align_stop_times(&gtfs_urban, &mut stop_times, TT::Urban)?;
+    info!("Writing `stop_time.json` file");
+    fs::write(
+        format!("{}/stop_time.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&stop_times)?,
     )?;
 
     // routes.txt
@@ -308,6 +322,50 @@ fn align_trips<'a, 'b>(
     }
 
     trips.sort_by(|a, b| a.id.cmp(&b.id));
+
+    Ok(())
+}
+
+fn align_stop_times<'a, 'b>(
+    gtfs: &'a Gtfs,
+    stop_times: &'b mut Vec<KdiStopTime>,
+    tt: TT,
+) -> Result<(), Box<dyn Error>> {
+    for (_, trip) in &gtfs.trips {
+        for stop_time in &trip.stop_times {
+            stop_times.push(KdiStopTime {
+                trip_id: to_correct_id(&tt, &trip.id),
+                stop_id: to_correct_id(&tt, &stop_time.stop.id),
+                arrival: if let Some(time) = stop_time.arrival_time {
+                    Some(
+                        NaiveDate::from_ymd(0, 1, 1 + (time / 86_400))
+                            .and_time(NaiveTime::from_num_seconds_from_midnight(time % 86_400, 0))
+                            .format("%Y-%m-%dT%H:%M:%S")
+                            .to_string(),
+                    )
+                } else {
+                    None
+                },
+                departure: if let Some(time) = stop_time.departure_time {
+                    Some(
+                        NaiveDate::from_ymd(0, 1, 1 + (time / 86_400))
+                            .and_time(NaiveTime::from_num_seconds_from_midnight(time % 86_400, 0))
+                            .format("%Y-%m-%dT%H:%M:%S")
+                            .to_string(),
+                    )
+                } else {
+                    None
+                },
+                sequence: stop_time.stop_sequence as usize,
+            })
+        }
+    }
+
+    stop_times.sort_by(|a, b| {
+        a.trip_id
+            .cmp(&b.trip_id)
+            .then_with(|| a.sequence.cmp(&b.sequence))
+    });
 
     Ok(())
 }

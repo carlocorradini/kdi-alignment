@@ -179,3 +179,15 @@ pub struct KdiTrip<'a> {
     pub weelchair: KdiSupportedEnum,
     pub bike: KdiSupportedEnum,
 }
+
+#[derive(Debug, Serialize)]
+#[serde(rename(serialize = "StopTime"))]
+pub struct KdiStopTime {
+    #[serde(rename(serialize = "tripId"))]
+    pub trip_id: String,
+    #[serde(rename(serialize = "stopId"))]
+    pub stop_id: String,
+    pub arrival: Option<String>,
+    pub departure: Option<String>,
+    pub sequence: usize,
+}
