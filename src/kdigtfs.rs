@@ -1,4 +1,4 @@
-use gtfs_structures::{Availability, RouteType};
+use gtfs_structures::{Availability, Exception, RouteType};
 use serde::Serialize;
 
 #[derive(Debug, Serialize)]
@@ -63,6 +63,22 @@ impl From<RouteType> for KdiTransportEnum {
 }
 
 #[derive(Debug, Serialize)]
+#[serde(rename(serialize = "ExceptionEnum"))]
+pub enum KdiExceptionEnum {
+    Added,
+    Removed,
+}
+
+impl From<Exception> for KdiExceptionEnum {
+    fn from(exception: Exception) -> Self {
+        match exception {
+            Exception::Added => KdiExceptionEnum::Added,
+            Exception::Deleted => KdiExceptionEnum::Removed,
+        }
+    }
+}
+
+#[derive(Debug, Serialize)]
 #[serde(rename(serialize = "Agency"))]
 pub struct KdiAgency<'a> {
     pub id: usize,
@@ -112,4 +128,13 @@ pub struct KdiCalendar {
     pub friday: bool,
     pub saturday: bool,
     pub sunday: bool,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename(serialize = "CalendarException"))]
+pub struct KdiCalendarException {
+    #[serde(rename(serialize = "calendarId"))]
+    pub calendar_id: usize,
+    pub date: String,
+    pub exception: KdiExceptionEnum,
 }
