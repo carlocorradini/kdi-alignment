@@ -12,19 +12,19 @@ pub enum KdiStopEnum {
 }
 
 #[derive(Debug, Serialize)]
-#[serde(rename(serialize = "WeelchairEnum"))]
-pub enum KdiWeelchairEnum {
+#[serde(rename(serialize = "SupportedEnum"))]
+pub enum KdiSupportedEnum {
     Unknown,
     Supported,
     NotSupported,
 }
 
-impl From<Availability> for KdiWeelchairEnum {
+impl From<Availability> for KdiSupportedEnum {
     fn from(availability: Availability) -> Self {
         match availability {
-            Availability::Available => KdiWeelchairEnum::Supported,
-            Availability::NotAvailable => KdiWeelchairEnum::NotSupported,
-            _ => KdiWeelchairEnum::Unknown,
+            Availability::Available => KdiSupportedEnum::Supported,
+            Availability::NotAvailable => KdiSupportedEnum::NotSupported,
+            _ => KdiSupportedEnum::Unknown,
         }
     }
 }
@@ -97,7 +97,7 @@ pub struct KdiStop<'a> {
     pub longitude: f64,
     #[serde(rename(serialize = "type"))]
     pub stype: KdiStopEnum,
-    pub weelchair: KdiWeelchairEnum,
+    pub weelchair: KdiSupportedEnum,
 }
 
 #[derive(Debug, Serialize)]

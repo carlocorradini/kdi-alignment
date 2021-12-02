@@ -9,7 +9,7 @@ use std::{error::Error};
 
 use crate::kdigtfs::{
     KdiAgency, KdiCalendar, KdiCalendarException, KdiExceptionEnum, KdiRoute, KdiStop, KdiStopEnum,
-    KdiTransportEnum, KdiWeelchairEnum,
+    KdiTransportEnum, KdiSupportedEnum,
 };
 
 const ALIGNEMENT_DIR: &'static str = "./alignment";
@@ -35,6 +35,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     info!("Reading `{}`", URBAN_FILE);
     let gtfs_urban = Gtfs::new(URBAN_FILE)?;
+
+    // StopEnum
+    // WeelchairEnum
+    // BikeEnum
 
     // agency.txt
     info!("Aligning `agency.txt`");
@@ -136,7 +140,7 @@ fn align_stops<'a, 'b>(
             latitude: stop.latitude.unwrap(),
             longitude: stop.longitude.unwrap(),
             stype: KdiStopEnum::Generic,
-            weelchair: KdiWeelchairEnum::from(stop.wheelchair_boarding),
+            weelchair: KdiSupportedEnum::from(stop.wheelchair_boarding),
         });
     }
 
