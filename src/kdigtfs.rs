@@ -1,4 +1,4 @@
-use gtfs_structures::{Availability, Exception, RouteType};
+use gtfs_structures::{Availability, BikesAllowedType, DirectionType, Exception, RouteType};
 use serde::Serialize;
 
 #[derive(Debug, Serialize)]
@@ -24,6 +24,16 @@ impl From<Availability> for KdiSupportedEnum {
         match availability {
             Availability::Available => KdiSupportedEnum::Supported,
             Availability::NotAvailable => KdiSupportedEnum::NotSupported,
+            _ => KdiSupportedEnum::Unknown,
+        }
+    }
+}
+
+impl From<BikesAllowedType> for KdiSupportedEnum {
+    fn from(bikes_allowed_type: BikesAllowedType) -> Self {
+        match bikes_allowed_type {
+            BikesAllowedType::AtLeastOneBike => KdiSupportedEnum::Supported,
+            BikesAllowedType::NoBikesAllowed => KdiSupportedEnum::NotSupported,
             _ => KdiSupportedEnum::Unknown,
         }
     }
@@ -79,9 +89,25 @@ impl From<Exception> for KdiExceptionEnum {
 }
 
 #[derive(Debug, Serialize)]
+#[serde(rename(serialize = "DirectionEnum"))]
+pub enum KdiDirectionEnum {
+    Outbound,
+    Inbound,
+}
+
+impl From<DirectionType> for KdiDirectionEnum {
+    fn from(direction_type: DirectionType) -> Self {
+        match direction_type {
+            DirectionType::Outbound => KdiDirectionEnum::Outbound,
+            DirectionType::Inbound => KdiDirectionEnum::Inbound,
+        }
+    }
+}
+
+#[derive(Debug, Serialize)]
 #[serde(rename(serialize = "Agency"))]
 pub struct KdiAgency<'a> {
-    pub id: usize,
+    pub id: String,
     pub name: &'a str,
     pub email: &'a str,
     pub phone: &'a str,
@@ -91,7 +117,7 @@ pub struct KdiAgency<'a> {
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "Stop"))]
 pub struct KdiStop<'a> {
-    pub id: usize,
+    pub id: String,
     pub name: &'a str,
     pub latitude: f64,
     pub longitude: f64,
@@ -103,9 +129,9 @@ pub struct KdiStop<'a> {
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "Route"))]
 pub struct KdiRoute<'a> {
-    pub id: usize,
+    pub id: String,
     #[serde(rename(serialize = "agencyId"))]
-    pub agency_id: usize,
+    pub agency_id: String,
     #[serde(rename(serialize = "shortName"))]
     pub short_name: &'a str,
     #[serde(rename(serialize = "longName"))]
@@ -116,7 +142,7 @@ pub struct KdiRoute<'a> {
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "Calendar"))]
 pub struct KdiCalendar {
-    pub id: usize,
+    pub id: String,
     #[serde(rename(serialize = "startDate"))]
     pub start_date: String,
     #[serde(rename(serialize = "endDate"))]
@@ -134,7 +160,21 @@ pub struct KdiCalendar {
 #[serde(rename(serialize = "CalendarException"))]
 pub struct KdiCalendarException {
     #[serde(rename(serialize = "calendarId"))]
-    pub calendar_id: usize,
+    pub calendar_id: String,
     pub date: String,
     pub exception: KdiExceptionEnum,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename(serialize = "Trip"))]
+pub struct KdiTrip<'a> {
+    pub id: String,
+    #[serde(rename(serialize = "routeId"))]
+    pub route_id: String,
+    #[serde(rename(serialize = "calendarId"))]
+    pub calendar_id: String,
+    pub name: &'a str,
+    pub direction: KdiDirectionEnum,
+    pub weelchair: KdiSupportedEnum,
+    pub bike: KdiSupportedEnum,
 }
