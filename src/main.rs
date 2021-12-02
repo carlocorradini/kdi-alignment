@@ -5,9 +5,11 @@ use env_logger::{Builder, Target};
 use gtfs_structures::Gtfs;
 use kdigtfs::{KdiDirectionEnum, KdiTrip};
 use log::{debug, info, LevelFilter};
-use std::error::Error;
+use serde_json::json;
 use std::fmt::Display;
 use std::fs;
+use std::{error::Error};
+use strum::VariantNames;
 
 use crate::kdigtfs::{
     KdiAgency, KdiCalendar, KdiCalendarException, KdiExceptionEnum, KdiRoute, KdiStop, KdiStopEnum,
@@ -146,6 +148,37 @@ fn main() -> Result<(), Box<dyn Error>> {
     fs::write(
         format!("{}/trip.json", ALIGNEMENT_DIR),
         serde_json::to_string(&trips)?,
+    )?;
+
+    // ENUMS
+    info!("Writing `stop_enum.json` file");
+    fs::write(
+        format!("{}/stop_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiStopEnum::VARIANTS }))?,
+    )?;
+
+    info!("Writing `supported_enum.json` file");
+    fs::write(
+        format!("{}/supported_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiSupportedEnum::VARIANTS }))?,
+    )?;
+
+    info!("Writing `direction_enum.json` file");
+    fs::write(
+        format!("{}/direction_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiDirectionEnum::VARIANTS }))?,
+    )?;
+
+    info!("Writing `exception_enum.json` file");
+    fs::write(
+        format!("{}/exception_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiExceptionEnum::VARIANTS }))?,
+    )?;
+
+    info!("Writing `transport_enum.json` file");
+    fs::write(
+        format!("{}/transport_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiTransportEnum::VARIANTS }))?,
     )?;
 
     Ok(())

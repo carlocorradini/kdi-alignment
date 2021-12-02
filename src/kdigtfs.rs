@@ -1,7 +1,8 @@
 use gtfs_structures::{Availability, BikesAllowedType, DirectionType, Exception, RouteType};
 use serde::Serialize;
+use strum_macros::{EnumString, EnumVariantNames};
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, EnumString, EnumVariantNames)]
 #[serde(rename(serialize = "StopEnum"))]
 pub enum KdiStopEnum {
     Generic,
@@ -11,7 +12,7 @@ pub enum KdiStopEnum {
     Taxi,
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, EnumString, EnumVariantNames)]
 #[serde(rename(serialize = "SupportedEnum"))]
 pub enum KdiSupportedEnum {
     Unknown,
@@ -39,7 +40,7 @@ impl From<BikesAllowedType> for KdiSupportedEnum {
     }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, EnumString, EnumVariantNames)]
 #[serde(rename(serialize = "TransportEnum"))]
 pub enum KdiTransportEnum {
     Tram,
@@ -72,7 +73,7 @@ impl From<RouteType> for KdiTransportEnum {
     }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, EnumString, EnumVariantNames)]
 #[serde(rename(serialize = "ExceptionEnum"))]
 pub enum KdiExceptionEnum {
     Added,
@@ -88,7 +89,7 @@ impl From<Exception> for KdiExceptionEnum {
     }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, EnumString, EnumVariantNames)]
 #[serde(rename(serialize = "DirectionEnum"))]
 pub enum KdiDirectionEnum {
     Outbound,
