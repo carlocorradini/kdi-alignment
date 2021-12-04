@@ -281,7 +281,10 @@ fn align_stops<'a, 'b>(
         stops.push(KdiStop {
             id: to_correct_id(&tt, &stop.id),
             zone_id: if stop.zone_id.is_some() {
-                Some(format!("ZONE_{}", to_correct_id(&tt, &stop.zone_id.as_ref().unwrap())))
+                Some(format!(
+                    "ZONE_{}",
+                    to_correct_id(&tt, &stop.zone_id.as_ref().unwrap())
+                ))
             } else {
                 None
             },
@@ -516,6 +519,13 @@ fn align_fare_attributes<'a, 'b>(
         let mut fare: KdiFare = result?;
         fare.id = to_correct_id(&tt, &fare.id);
         fare.ftype = KdiFareEnum::Cash;
+        fare.duration = NaiveDate::from_ymd(0, 1, 1 + (fare.duration.parse::<u32>()? / 86_400))
+            .and_time(NaiveTime::from_num_seconds_from_midnight(
+                fare.duration.parse::<u32>()? % 86_400,
+                0,
+            ))
+            .format("%Y-%m-%dT%H:%M:%S")
+            .to_string();
         fares.push(fare);
     }
 
@@ -527,6 +537,13 @@ fn align_fare_attributes<'a, 'b>(
         let mut fare: KdiFare = result?;
         fare.id = to_correct_id(&tt, &fare.id);
         fare.ftype = KdiFareEnum::Cartascalare;
+        fare.duration = NaiveDate::from_ymd(0, 1, 1 + (fare.duration.parse::<u32>()? / 86_400))
+            .and_time(NaiveTime::from_num_seconds_from_midnight(
+                fare.duration.parse::<u32>()? % 86_400,
+                0,
+            ))
+            .format("%Y-%m-%dT%H:%M:%S")
+            .to_string();
         fares.push(fare);
     }
 
@@ -538,6 +555,13 @@ fn align_fare_attributes<'a, 'b>(
         let mut fare: KdiFare = result?;
         fare.id = to_correct_id(&tt, &fare.id);
         fare.ftype = KdiFareEnum::Mobile;
+        fare.duration = NaiveDate::from_ymd(0, 1, 1 + (fare.duration.parse::<u32>()? / 86_400))
+            .and_time(NaiveTime::from_num_seconds_from_midnight(
+                fare.duration.parse::<u32>()? % 86_400,
+                0,
+            ))
+            .format("%Y-%m-%dT%H:%M:%S")
+            .to_string();
         fares.push(fare);
     }
 
@@ -587,10 +611,16 @@ fn align_fare_rules<'a, 'b>(
         let mut fare_rule: KdiFareRule = result?;
         fare_rule.fare_id = to_correct_id(&tt, &fare_rule.fare_id);
         if fare_rule.origin_id.is_some() {
-            fare_rule.origin_id = Some(format!("ZONE_{}", to_correct_id(&tt, &fare_rule.origin_id.unwrap())));
+            fare_rule.origin_id = Some(format!(
+                "ZONE_{}",
+                to_correct_id(&tt, &fare_rule.origin_id.unwrap())
+            ));
         }
         if fare_rule.destination_id.is_some() {
-            fare_rule.destination_id = Some(format!("ZONE_{}", to_correct_id(&tt, &fare_rule.destination_id.unwrap())));
+            fare_rule.destination_id = Some(format!(
+                "ZONE_{}",
+                to_correct_id(&tt, &fare_rule.destination_id.unwrap())
+            ));
         }
         fare_rules.push(fare_rule);
     }
@@ -603,10 +633,16 @@ fn align_fare_rules<'a, 'b>(
         let mut fare_rule: KdiFareRule = result?;
         fare_rule.fare_id = to_correct_id(&tt, &fare_rule.fare_id);
         if fare_rule.origin_id.is_some() {
-            fare_rule.origin_id = Some(format!("ZONE_{}", to_correct_id(&tt, &fare_rule.origin_id.unwrap())));
+            fare_rule.origin_id = Some(format!(
+                "ZONE_{}",
+                to_correct_id(&tt, &fare_rule.origin_id.unwrap())
+            ));
         }
         if fare_rule.destination_id.is_some() {
-            fare_rule.destination_id = Some(format!("ZONE_{}", to_correct_id(&tt, &fare_rule.destination_id.unwrap())));
+            fare_rule.destination_id = Some(format!(
+                "ZONE_{}",
+                to_correct_id(&tt, &fare_rule.destination_id.unwrap())
+            ));
         }
         fare_rules.push(fare_rule);
     }
@@ -619,10 +655,16 @@ fn align_fare_rules<'a, 'b>(
         let mut fare_rule: KdiFareRule = result?;
         fare_rule.fare_id = to_correct_id(&tt, &fare_rule.fare_id);
         if fare_rule.origin_id.is_some() {
-            fare_rule.origin_id = Some(format!("ZONE_{}", to_correct_id(&tt, &fare_rule.origin_id.unwrap())));
+            fare_rule.origin_id = Some(format!(
+                "ZONE_{}",
+                to_correct_id(&tt, &fare_rule.origin_id.unwrap())
+            ));
         }
         if fare_rule.destination_id.is_some() {
-            fare_rule.destination_id = Some(format!("ZONE_{}", to_correct_id(&tt, &fare_rule.destination_id.unwrap())));
+            fare_rule.destination_id = Some(format!(
+                "ZONE_{}",
+                to_correct_id(&tt, &fare_rule.destination_id.unwrap())
+            ));
         }
         fare_rules.push(fare_rule);
     }
