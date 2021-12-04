@@ -8,8 +8,11 @@ authors = ["Carlo Corradini carlo.corradini98@gmail.com"]
 gtfs-structures = "0.29"
 serde = {version = "1.0", features = ["derive"]}
 serde_json = "1.0"
+serde_repr = "0.1"
 chrono = "0.4"
 strum = "0.23"
 strum_macros = "0.23"
+zip = "0.5"
+csv = "1.1"
 log = "0.4"
 env_logger = "0.9"

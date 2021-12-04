@@ -1,5 +1,6 @@
 use gtfs_structures::{Availability, BikesAllowedType, DirectionType, Exception, RouteType};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
+use serde_repr::Deserialize_repr;
 use strum_macros::{EnumString, EnumVariantNames};
 
 #[derive(Debug, Serialize, EnumString, EnumVariantNames)]
@@ -43,31 +44,17 @@ impl From<BikesAllowedType> for KdiSupportedEnum {
 #[derive(Debug, Serialize, EnumString, EnumVariantNames)]
 #[serde(rename(serialize = "TransportEnum"))]
 pub enum KdiTransportEnum {
-    Tram,
-    Subway,
     Rail,
     Bus,
-    Ferry,
-    CableTram,
     CableCar,
-    Funicular,
-    Trolleybus,
-    Monorail,
 }
 
 impl From<RouteType> for KdiTransportEnum {
     fn from(route_type: RouteType) -> Self {
         match route_type {
-            RouteType::Tramway => KdiTransportEnum::Tram,
-            RouteType::Subway => KdiTransportEnum::Subway,
             RouteType::Rail => KdiTransportEnum::Rail,
             RouteType::Bus => KdiTransportEnum::Bus,
-            RouteType::Ferry => KdiTransportEnum::Ferry,
-            RouteType::CableCar => KdiTransportEnum::CableTram,
-            RouteType::Gondola => KdiTransportEnum::CableCar,
-            RouteType::Funicular => KdiTransportEnum::Funicular,
-            RouteType::Other(11) => KdiTransportEnum::Trolleybus,
-            RouteType::Other(12) => KdiTransportEnum::Monorail,
+            RouteType::CableCar => KdiTransportEnum::CableCar,
             _ => panic!("Unknown route type {:?}", route_type),
         }
     }
@@ -105,6 +92,34 @@ impl From<DirectionType> for KdiDirectionEnum {
     }
 }
 
+#[derive(Debug, Serialize, EnumString, EnumVariantNames)]
+#[serde(rename(serialize = "FareEnum"))]
+pub enum KdiFareEnum {
+    Cash,
+    Cartascalare,
+    Mobile,
+}
+
+impl Default for KdiFareEnum {
+    fn default() -> Self {
+        Self::Cash
+    }
+}
+
+#[derive(Debug, Serialize, Deserialize, EnumString, EnumVariantNames)]
+#[serde(rename(serialize = "CurrencyEnum"))]
+pub enum KdiCurrencyEnum {
+    EUR,
+}
+
+#[derive(Debug, Serialize, Deserialize_repr, EnumString, EnumVariantNames)]
+#[repr(u8)]
+#[serde(rename(serialize = "PaymentEnum"))]
+pub enum KdiPaymentEnum {
+    OnBoard = 0,
+    BeforeBoarding = 1,
+}
+
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "Agency"))]
 pub struct KdiAgency<'a> {
@@ -119,6 +134,8 @@ pub struct KdiAgency<'a> {
 #[serde(rename(serialize = "Stop"))]
 pub struct KdiStop<'a> {
     pub id: String,
+    #[serde(rename(serialize = "zoneId"))]
+    pub zone_id: Option<String>,
     pub name: &'a str,
     pub latitude: f64,
     pub longitude: f64,
@@ -190,4 +207,46 @@ pub struct KdiStopTime {
     pub arrival: Option<String>,
     pub departure: Option<String>,
     pub sequence: usize,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename(serialize = "Zone"))]
+pub struct KdiZone {
+    #[serde(rename(deserialize = "ZONE_ID"))]
+    pub id: String,
+    #[serde(rename(deserialize = "ZONE_NAME"))]
+    pub name: String,
+    #[serde(rename(deserialize = "ZONE_LAT"))]
+    pub latitude: f64,
+    #[serde(rename(deserialize = "ZONE_LON"))]
+    pub longitude: f64,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename(serialize = "Fare"))]
+pub struct KdiFare {
+    #[serde(rename(deserialize = "FARE_ID"))]
+    pub id: String,
+    #[serde(rename(deserialize = "PRICE"))]
+    pub price: f64,
+    #[serde(rename(deserialize = "CURRENCY_TYPE"))]
+    pub currency: KdiCurrencyEnum,
+    #[serde(skip_deserializing)]
+    #[serde(rename(serialize = "type"))]
+    pub ftype: KdiFareEnum,
+    #[serde(rename(deserialize = "PAYMENT_METHOD"))]
+    pub payment: KdiPaymentEnum,
+    #[serde(rename(deserialize = "TRANSFER_DURATION"))]
+    pub duration: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(rename(serialize = "FareRule"))]
+pub struct KdiFareRule {
+    #[serde(rename(serialize = "fareId", deserialize = "FARE_ID"))]
+    pub fare_id: String,
+    #[serde(rename(serialize = "originId", deserialize = "ORIGIN_ID"))]
+    pub origin_id: Option<String>,
+    #[serde(rename(serialize = "destinationId", deserialize = "DESTINATION_ID"))]
+    pub destination_id: Option<String>
 }
