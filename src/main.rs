@@ -17,11 +17,11 @@ use crate::kdi::enums::{
 };
 use crate::kdi::structs::{KdiAgency, KdiFare, KdiFareRule, KdiLocation, KdiRoute, KdiTrip};
 
-const ALIGNEMENT_DIR: &'static str = "./alignment";
-const EXTRAURBAN_FILE: &'static str = "./data/extraurban.zip";
-const URBAN_FILE: &'static str = "./data/urban.zip";
-const EXTRAURBAN_FARE_FILE: &'static str = "./data/extraurban_fare.zip";
-const URBAN_FARE_FILE: &'static str = "./data/urban_fare.zip";
+const ALIGNEMENT_DIR: & str = "./alignment";
+const EXTRAURBAN_FILE: & str = "./data/extraurban.zip";
+const URBAN_FILE: & str = "./data/urban.zip";
+const EXTRAURBAN_FARE_FILE: & str = "./data/extraurban_fare.zip";
+const URBAN_FARE_FILE: & str = "./data/urban_fare.zip";
 
 fn main() -> Result<(), Box<dyn Error>> {
     // --- LOGGER
