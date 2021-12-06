@@ -1,24 +1,21 @@
-mod kdigtfs;
+mod kdi;
 
-use chrono::{NaiveDate, NaiveTime};
-use csv::{ReaderBuilder, Trim};
 use env_logger::{Builder, Target};
 use gtfs_structures::Gtfs;
-use kdigtfs::{KdiDirectionEnum, KdiFareEnum, KdiStopTime, KdiTrip};
+use kdi::enums::KdiFareEnum;
 use log::{debug, info, LevelFilter};
 use serde_json::json;
 use std::error::Error;
-use std::fmt::Display;
 use std::fs::{self, File};
-use std::io::Read;
 use strum::VariantNames;
 use zip::ZipArchive;
 
-use crate::kdigtfs::{
-    KdiAgency, KdiCalendar, KdiCalendarException, KdiCurrencyEnum, KdiExceptionEnum, KdiFare,
-    KdiFareRule, KdiPaymentEnum, KdiRoute, KdiStop, KdiStopEnum, KdiSupportedEnum,
-    KdiTransportEnum, KdiZone,
+use crate::kdi::align::{self, TT};
+use crate::kdi::enums::{
+    KdiCurrencyEnum, KdiDirectionEnum, KdiExceptionEnum, KdiLocationTypeEnum, KdiPaymentEnum,
+    KdiSupportedEnum, KdiTransportEnum,
 };
+use crate::kdi::structs::{KdiAgency, KdiFare, KdiFareRule, KdiLocation, KdiRoute, KdiTrip};
 
 const ALIGNEMENT_DIR: &'static str = "./alignment";
 const EXTRAURBAN_FILE: &'static str = "./data/extraurban.zip";
@@ -26,69 +23,171 @@ const URBAN_FILE: &'static str = "./data/urban.zip";
 const EXTRAURBAN_FARE_FILE: &'static str = "./data/extraurban_fare.zip";
 const URBAN_FARE_FILE: &'static str = "./data/urban_fare.zip";
 
-#[derive(PartialEq)]
-enum TT {
-    Urban,
-    ExtraUrban,
-}
-
-impl Display for TT {
-    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-        match *self {
-            TT::ExtraUrban => write!(f, "EU"),
-            TT::Urban => write!(f, "U"),
-        }
-    }
-}
-
 fn main() -> Result<(), Box<dyn Error>> {
-    // Initialize logger
+    // --- LOGGER
+    // - Initialize logger
     Builder::new()
         .target(Target::Stdout)
         .filter_level(LevelFilter::Debug)
         .init();
 
-    // Remove and recreate alignment directory
+    // --- DIRECTORY TREE
+    // - Remove and recreate alignment directory
     info!("Removing `{}` directory", ALIGNEMENT_DIR);
     fs::remove_dir_all(ALIGNEMENT_DIR).ok();
     info!("Creating `{}` directory", ALIGNEMENT_DIR);
     fs::create_dir(ALIGNEMENT_DIR)?;
 
-    // Read GTFS files
+    // --- DATA FILES
+    // - Read `GTFS` files
     info!("Reading `{}`", EXTRAURBAN_FILE);
     let gtfs_extraurban = Gtfs::new(EXTRAURBAN_FILE)?;
-
     info!("Reading `{}`", URBAN_FILE);
     let gtfs_urban = Gtfs::new(URBAN_FILE)?;
-
-    // Read FARE files
+    // - Read `FARE` files
     info!("Reading `{}`", EXTRAURBAN_FARE_FILE);
     let mut extraurban_fare = ZipArchive::new(File::open(&EXTRAURBAN_FARE_FILE)?)?;
-
     info!("Reading `{}`", URBAN_FARE_FILE);
     let mut urban_fare = ZipArchive::new(File::open(&URBAN_FARE_FILE)?)?;
 
-    // agency.txt
-    info!("Aligning `agency.txt`");
-    let agency: KdiAgency;
-
+    // --- COMMON
+    // - Location
+    let mut locations: Vec<KdiLocation> = Vec::new();
+    // Zone
+    info!("Aligning `Common::Location::Zone`");
+    debug!("Aligning extraurban `Common::Location::Zone`");
+    align::align_location_zone(&mut extraurban_fare, &mut locations, TT::ExtraUrban)?;
+    debug!("Aligning urban `Common::Location::Zone`");
+    align::align_location_zone(&mut urban_fare, &mut locations, TT::Urban)?;
+    info!("Writing `locations.json` file");
+    fs::write(
+        format!("{}/locations.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&locations)?,
+    )?;
+    // - Fare
+    let mut fares: Vec<KdiFare> = Vec::new();
+    info!("Aligning `Common::Fare`");
+    debug!("Aligning extraurban `Common::Fare`");
+    align::align_fare(&mut extraurban_fare, &mut fares, TT::ExtraUrban)?;
+    debug!("Aligning urban `Common::Fare`");
+    align::align_fare(&mut urban_fare, &mut fares, TT::Urban)?;
+    info!("Writing `fares.json` file");
+    fs::write(
+        format!("{}/fares.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&fares)?,
+    )?;
+    // - Trip
+    let mut trips: Vec<KdiTrip> = Vec::new();
+    info!("Aligning `Common::Trip`");
+    debug!("Aligning extraurban `Common::Trip`");
+    align::align_trip(&gtfs_extraurban, &mut trips, TT::ExtraUrban)?;
+    debug!("Aligning urban `Common::Trip`");
+    align::align_trip(&gtfs_urban, &mut trips, TT::Urban)?;
+    info!("Writing `trips.json` file");
+    fs::write(
+        format!("{}/trips.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&trips)?,
+    )?;
+    // - Agency
+    let mut agencies: Vec<KdiAgency> = Vec::new();
+    info!("Aligning `Common::Agency`");
     assert!(gtfs_extraurban.agencies.len() == 1);
     assert!(gtfs_urban.agencies.len() == 1);
+    let agency_email = "info@trentinotrasporti.it".to_string();
     {
         let gtfs_agency = gtfs_extraurban.agencies.first().unwrap();
-        agency = KdiAgency {
-            id: gtfs_agency.id.as_ref().unwrap().to_string(),
+        agencies.push(KdiAgency {
+            id: &gtfs_agency.id.as_ref().unwrap(),
             name: &gtfs_agency.name,
-            email: "info@trentinotrasporti.it",
+            email: &agency_email,
             phone: &gtfs_agency.phone.as_ref().unwrap(),
             url: &gtfs_agency.url,
-        };
+        });
     }
-    info!("Writing `agency.json` file");
+    info!("Writing `agencies.json` file");
     fs::write(
-        format!("{}/agency.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&agency)?,
+        format!("{}/agencies.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&agencies)?,
     )?;
+    // - Route
+    let mut routes: Vec<KdiRoute> = Vec::new();
+    info!("Aligning `Common::Route`");
+    debug!("Aligning extraurban `Common::Route`");
+    align::align_route(&gtfs_extraurban, &mut routes, TT::ExtraUrban)?;
+    debug!("Aligning urban `Common::Route`");
+    align::align_route(&gtfs_urban, &mut routes, TT::Urban)?;
+    info!("Writing `routes.json` file");
+    fs::write(
+        format!("{}/routes.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&routes)?,
+    )?;
+
+    // --- CORE
+    // - FareRule
+    info!("Aligning `Core:FareRule`");
+    let mut fare_rules: Vec<KdiFareRule> = Vec::new();
+    debug!("Aligning extraurban `Core:FareRule`");
+    align::align_fare_rule(&mut extraurban_fare, &mut fare_rules, TT::ExtraUrban)?;
+    debug!("Aligning urban `Core:FareRule`");
+    align::align_fare_rule(&mut urban_fare, &mut fare_rules, TT::Urban)?;
+    info!("Writing `fare_rules.json` file");
+    fs::write(
+        format!("{}/fare_rules.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&fare_rules)?,
+    )?;
+
+    // --- CONTEXTUAL
+    info!("Aligning `Contextual::*`");
+    // - LocationTypeEnum
+    info!("Writing `location_type_enum.json` file");
+    fs::write(
+        format!("{}/location_type_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiLocationTypeEnum::VARIANTS }))?,
+    )?;
+    // - PaymentEnum
+    info!("Writing `payment_enum.json` file");
+    fs::write(
+        format!("{}/payment_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiPaymentEnum::VARIANTS }))?,
+    )?;
+    // - CurrencyEnum
+    info!("Writing `currency_enum.json` file");
+    fs::write(
+        format!("{}/currency_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiCurrencyEnum::VARIANTS }))?,
+    )?;
+    // - FareEnum
+    info!("Writing `fare_enum.json` file");
+    fs::write(
+        format!("{}/fare_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiFareEnum::VARIANTS }))?,
+    )?;
+    // - SupportedEnum
+    info!("Writing `supported_enum.json` file");
+    fs::write(
+        format!("{}/supported_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiSupportedEnum::VARIANTS }))?,
+    )?;
+    // - DirectionEnum
+    info!("Writing `direction_enum.json` file");
+    fs::write(
+        format!("{}/direction_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiDirectionEnum::VARIANTS }))?,
+    )?;
+    // - ExceptionEnum
+    info!("Writing `exception_enum.json` file");
+    fs::write(
+        format!("{}/exception_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiExceptionEnum::VARIANTS }))?,
+    )?;
+    // - TransportEnum
+    info!("Writing `transport_enum.json` file");
+    fs::write(
+        format!("{}/transport_enum.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&json!({ "value": KdiTransportEnum::VARIANTS }))?,
+    )?;
+
+    /*
 
     // stops.txt
     info!("Aligning `stops.txt`");
@@ -116,20 +215,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     fs::write(
         format!("{}/stop_time.json", ALIGNEMENT_DIR),
         serde_json::to_string(&stop_times)?,
-    )?;
-
-    // routes.txt
-    info!("Aligning `routes.txt`");
-    let mut routes: Vec<KdiRoute> = Vec::new();
-
-    debug!("Aligning extraurban `routes.txt`");
-    align_routes(&gtfs_extraurban, &mut routes, TT::ExtraUrban)?;
-    debug!("Aligning urban `routes.txt`");
-    align_routes(&gtfs_urban, &mut routes, TT::Urban)?;
-    info!("Writing `route.json` file");
-    fs::write(
-        format!("{}/route.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&routes)?,
     )?;
 
     // calendar.txt
@@ -160,117 +245,48 @@ fn main() -> Result<(), Box<dyn Error>> {
         serde_json::to_string(&calendars_exception)?,
     )?;
 
-    // trips.txt
-    info!("Aligning `trips.txt`");
-    let mut trips: Vec<KdiTrip> = Vec::new();
+    let mut a: HashMap<&String, &KdiTransportEnum> = HashMap::new();
 
-    debug!("Aligning extraurban `trips.txt`");
-    align_trips(&gtfs_extraurban, &mut trips, TT::ExtraUrban)?;
-    debug!("Aligning urban `trips.txt`");
-    align_trips(&gtfs_urban, &mut trips, TT::Urban)?;
-    info!("Writing `trip.json` file");
-    fs::write(
-        format!("{}/trip.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&trips)?,
-    )?;
+    for stop in &stops {
+        println!("Evaluating Stop {}", stop.id);
+        let stop_times_filtered: Vec<&KdiStopTime> = stop_times
+            .iter()
+            .filter(|st| st.stop_id == stop.id)
+            .collect();
+        let trips_filtered: Vec<&KdiTrip> = trips
+            .iter()
+            .filter(|t| stop_times_filtered.iter().any(|&st| st.trip_id == t.id))
+            .collect();
+        let routes_filtered: Vec<&KdiRoute> = routes
+            .iter()
+            .filter(|r| trips_filtered.iter().any(|&t| t.route_id == r.id))
+            .collect();
 
-    // zones.txt
-    info!("Aligning `zones.txt`");
-    let mut zones: Vec<KdiZone> = Vec::new();
-
-    debug!("Aligning extraurban `zones.txt`");
-    align_zones(&mut extraurban_fare, &mut zones, TT::ExtraUrban)?;
-    debug!("Aligning urban `zones.txt`");
-    align_zones(&mut urban_fare, &mut zones, TT::Urban)?;
-    info!("Writing `zone.json` file");
-    fs::write(
-        format!("{}/zone.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&zones)?,
-    )?;
-
-    // fare_attributes.txt
-    info!("Aligning `fare_attributes.txt`");
-    let mut fares: Vec<KdiFare> = Vec::new();
-
-    debug!("Aligning extraurban `fare_attributes.txt`");
-    align_fare_attributes(&mut extraurban_fare, &mut fares, TT::ExtraUrban)?;
-    debug!("Aligning urban `fare_attributes.txt`");
-    align_fare_attributes(&mut urban_fare, &mut fares, TT::Urban)?;
-    info!("Writing `fare.json` file");
-    fs::write(
-        format!("{}/fare.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&fares)?,
-    )?;
-
-    // fare_rules.txt
-    info!("Aligning `fare_rules.txt`");
-    let mut fare_rules: Vec<KdiFareRule> = Vec::new();
-
-    debug!("Aligning extraurban `fare_rules.txt`");
-    align_fare_rules(&mut extraurban_fare, &mut fare_rules, TT::ExtraUrban)?;
-    debug!("Aligning urban `fare_rules.txt`");
-    align_fare_rules(&mut urban_fare, &mut fare_rules, TT::Urban)?;
-    info!("Writing `fare_rule.json` file");
-    fs::write(
-        format!("{}/fare_rule.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&fare_rules)?,
-    )?;
-
-    // ENUMS
-    info!("Writing `stop_enum.json` file");
-    fs::write(
-        format!("{}/stop_enum.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&json!({ "value": KdiStopEnum::VARIANTS }))?,
-    )?;
-
-    info!("Writing `supported_enum.json` file");
-    fs::write(
-        format!("{}/supported_enum.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&json!({ "value": KdiSupportedEnum::VARIANTS }))?,
-    )?;
-
-    info!("Writing `direction_enum.json` file");
-    fs::write(
-        format!("{}/direction_enum.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&json!({ "value": KdiDirectionEnum::VARIANTS }))?,
-    )?;
-
-    info!("Writing `exception_enum.json` file");
-    fs::write(
-        format!("{}/exception_enum.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&json!({ "value": KdiExceptionEnum::VARIANTS }))?,
-    )?;
-
-    info!("Writing `transport_enum.json` file");
-    fs::write(
-        format!("{}/transport_enum.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&json!({ "value": KdiTransportEnum::VARIANTS }))?,
-    )?;
-
-    info!("Writing `fare_enum.json` file");
-    fs::write(
-        format!("{}/fare_enum.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&json!({ "value": KdiFareEnum::VARIANTS }))?,
-    )?;
-
-    info!("Writing `currency_enum.json` file");
-    fs::write(
-        format!("{}/currency_enum.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&json!({ "value": KdiCurrencyEnum::VARIANTS }))?,
-    )?;
-
-    info!("Writing `payment_enum.json` file");
-    fs::write(
-        format!("{}/payment_enum.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&json!({ "value": KdiPaymentEnum::VARIANTS }))?,
-    )?;
+        for route in &routes_filtered {
+            if !a.contains_key(&stop.id) {
+                a.insert(&stop.id, &route.transport);
+            } else if a.get(&stop.id).unwrap().eq(&&route.transport) {
+                // OK
+            } else {
+                panic!(
+                    "Found Stop {} having transport {:?} and {:?}",
+                    stop.id,
+                    a.get(&stop.id).unwrap(),
+                    route.transport
+                );
+            }
+        }
+    }
+    */
 
     Ok(())
 }
 
-fn to_correct_id(tt: &TT, id: &String) -> String {
-    format!("{}_{}", tt, id)
-}
+/*
+
+
+
+
 
 fn align_stops<'a, 'b>(
     gtfs: &'a Gtfs,
@@ -297,26 +313,6 @@ fn align_stops<'a, 'b>(
     }
 
     stops.sort_by(|a, b| a.id.cmp(&b.id));
-
-    Ok(())
-}
-
-fn align_routes<'a, 'b>(
-    gtfs: &'a Gtfs,
-    routes: &'b mut Vec<KdiRoute<'a>>,
-    tt: TT,
-) -> Result<(), Box<dyn Error>> {
-    for (_, route) in &gtfs.routes {
-        routes.push(KdiRoute {
-            id: to_correct_id(&tt, &route.id),
-            agency_id: route.agency_id.as_ref().unwrap().to_string(),
-            short_name: &route.short_name,
-            long_name: &route.long_name,
-            transport: KdiTransportEnum::from(route.route_type),
-        });
-    }
-
-    routes.sort_by(|a, b| a.id.cmp(&b.id));
 
     Ok(())
 }
@@ -382,28 +378,6 @@ fn align_calendar_dates<'a, 'b>(
     Ok(())
 }
 
-fn align_trips<'a, 'b>(
-    gtfs: &'a Gtfs,
-    trips: &'b mut Vec<KdiTrip<'a>>,
-    tt: TT,
-) -> Result<(), Box<dyn Error>> {
-    for (_, trip) in &gtfs.trips {
-        trips.push(KdiTrip {
-            id: to_correct_id(&tt, &trip.id),
-            route_id: to_correct_id(&tt, &trip.route_id),
-            calendar_id: to_correct_id(&tt, &trip.service_id),
-            name: &trip.trip_headsign.as_ref().unwrap(),
-            direction: KdiDirectionEnum::from(trip.direction_id.unwrap()),
-            weelchair: KdiSupportedEnum::from(trip.wheelchair_accessible),
-            bike: KdiSupportedEnum::from(trip.bikes_allowed),
-        })
-    }
-
-    trips.sort_by(|a, b| a.id.cmp(&b.id));
-
-    Ok(())
-}
-
 fn align_stop_times<'a, 'b>(
     gtfs: &'a Gtfs,
     stop_times: &'b mut Vec<KdiStopTime>,
@@ -448,228 +422,4 @@ fn align_stop_times<'a, 'b>(
     Ok(())
 }
 
-fn align_zones<'a, 'b>(
-    archive: &'a mut ZipArchive<File>,
-    zones: &'b mut Vec<KdiZone>,
-    tt: TT,
-) -> Result<(), Box<dyn Error>> {
-    let mut zones_string: String = String::new();
-
-    archive
-        .by_name(if matches!(tt, TT::ExtraUrban) {
-            "tariffegtfsextraurbano/zones_extraurbano.txt"
-        } else {
-            "tariffegtfsurbano/zones_urbano.txt"
-        })?
-        .read_to_string(&mut zones_string)?;
-
-    for result in ReaderBuilder::new()
-        .trim(Trim::Headers)
-        .from_reader(zones_string.as_bytes())
-        .deserialize()
-    {
-        let mut zone: KdiZone = result?;
-        zone.id = format!("ZONE_{}", to_correct_id(&tt, &zone.id));
-        zones.push(zone);
-    }
-
-    zones.sort_by(|a, b| a.id.cmp(&b.id));
-
-    Ok(())
-}
-
-fn align_fare_attributes<'a, 'b>(
-    archive: &'a mut ZipArchive<File>,
-    fares: &'b mut Vec<KdiFare>,
-    tt: TT,
-) -> Result<(), Box<dyn Error>> {
-    let mut fare_attributes_string: String = String::new();
-    let mut fare_attributes_cartascalare_string: String = String::new();
-    let mut fare_attributes_mobile_string: String = String::new();
-
-    archive
-        .by_name(if matches!(tt, TT::ExtraUrban) {
-            "tariffegtfsextraurbano/fare_attributes_extraurbano.txt"
-        } else {
-            "tariffegtfsurbano/fare_attributes_urbano.txt"
-        })?
-        .read_to_string(&mut fare_attributes_string)?;
-
-    archive
-        .by_name(if matches!(tt, TT::ExtraUrban) {
-            "tariffegtfsextraurbano/fare_attributes_extraurbano_cartascalare.txt"
-        } else {
-            "tariffegtfsurbano/fare_attributes_urbano_cartascalare.txt"
-        })?
-        .read_to_string(&mut fare_attributes_cartascalare_string)?;
-
-    archive
-        .by_name(if matches!(tt, TT::ExtraUrban) {
-            "tariffegtfsextraurbano/fare_attributes_extraurbano_mobile.txt"
-        } else {
-            "tariffegtfsurbano/fare_attributes_urbano_mobile.txt"
-        })?
-        .read_to_string(&mut fare_attributes_mobile_string)?;
-
-    for result in ReaderBuilder::new()
-        .trim(Trim::Headers)
-        .from_reader(fare_attributes_string.as_bytes())
-        .deserialize()
-    {
-        let mut fare: KdiFare = result?;
-        fare.id = to_correct_id(&tt, &fare.id);
-        fare.ftype = KdiFareEnum::Cash;
-        fare.duration = NaiveDate::from_ymd(0, 1, 1 + (fare.duration.parse::<u32>()? / 86_400))
-            .and_time(NaiveTime::from_num_seconds_from_midnight(
-                fare.duration.parse::<u32>()? % 86_400,
-                0,
-            ))
-            .format("%Y-%m-%dT%H:%M:%S")
-            .to_string();
-        fares.push(fare);
-    }
-
-    for result in ReaderBuilder::new()
-        .trim(Trim::Headers)
-        .from_reader(fare_attributes_cartascalare_string.as_bytes())
-        .deserialize()
-    {
-        let mut fare: KdiFare = result?;
-        fare.id = to_correct_id(&tt, &fare.id);
-        fare.ftype = KdiFareEnum::Cartascalare;
-        fare.duration = NaiveDate::from_ymd(0, 1, 1 + (fare.duration.parse::<u32>()? / 86_400))
-            .and_time(NaiveTime::from_num_seconds_from_midnight(
-                fare.duration.parse::<u32>()? % 86_400,
-                0,
-            ))
-            .format("%Y-%m-%dT%H:%M:%S")
-            .to_string();
-        fares.push(fare);
-    }
-
-    for result in ReaderBuilder::new()
-        .trim(Trim::Headers)
-        .from_reader(fare_attributes_mobile_string.as_bytes())
-        .deserialize()
-    {
-        let mut fare: KdiFare = result?;
-        fare.id = to_correct_id(&tt, &fare.id);
-        fare.ftype = KdiFareEnum::Mobile;
-        fare.duration = NaiveDate::from_ymd(0, 1, 1 + (fare.duration.parse::<u32>()? / 86_400))
-            .and_time(NaiveTime::from_num_seconds_from_midnight(
-                fare.duration.parse::<u32>()? % 86_400,
-                0,
-            ))
-            .format("%Y-%m-%dT%H:%M:%S")
-            .to_string();
-        fares.push(fare);
-    }
-
-    fares.sort_by(|a, b| a.id.cmp(&b.id));
-
-    Ok(())
-}
-
-fn align_fare_rules<'a, 'b>(
-    archive: &'a mut ZipArchive<File>,
-    fare_rules: &'b mut Vec<KdiFareRule>,
-    tt: TT,
-) -> Result<(), Box<dyn Error>> {
-    let mut fare_rules_string: String = String::new();
-    let mut fare_rules_cartascalare_string: String = String::new();
-    let mut fare_rules_mobile_string: String = String::new();
-
-    archive
-        .by_name(if matches!(tt, TT::ExtraUrban) {
-            "tariffegtfsextraurbano/fare_rules_extraurbano.txt"
-        } else {
-            "tariffegtfsurbano/fare_rules_urbano.txt"
-        })?
-        .read_to_string(&mut fare_rules_string)?;
-
-    archive
-        .by_name(if matches!(tt, TT::ExtraUrban) {
-            "tariffegtfsextraurbano/fare_rules_extraurbano_cartascalare.txt"
-        } else {
-            "tariffegtfsurbano/fare_rules_urbano_cartascalare.txt"
-        })?
-        .read_to_string(&mut fare_rules_cartascalare_string)?;
-
-    archive
-        .by_name(if matches!(tt, TT::ExtraUrban) {
-            "tariffegtfsextraurbano/fare_rules_extraurbano_mobile.txt"
-        } else {
-            "tariffegtfsurbano/fare_rules_urbano_mobile.txt"
-        })?
-        .read_to_string(&mut fare_rules_mobile_string)?;
-
-    for result in ReaderBuilder::new()
-        .trim(Trim::Headers)
-        .from_reader(fare_rules_string.as_bytes())
-        .deserialize()
-    {
-        let mut fare_rule: KdiFareRule = result?;
-        fare_rule.fare_id = to_correct_id(&tt, &fare_rule.fare_id);
-        if fare_rule.origin_id.is_some() {
-            fare_rule.origin_id = Some(format!(
-                "ZONE_{}",
-                to_correct_id(&tt, &fare_rule.origin_id.unwrap())
-            ));
-        }
-        if fare_rule.destination_id.is_some() {
-            fare_rule.destination_id = Some(format!(
-                "ZONE_{}",
-                to_correct_id(&tt, &fare_rule.destination_id.unwrap())
-            ));
-        }
-        fare_rules.push(fare_rule);
-    }
-
-    for result in ReaderBuilder::new()
-        .trim(Trim::Headers)
-        .from_reader(fare_rules_cartascalare_string.as_bytes())
-        .deserialize()
-    {
-        let mut fare_rule: KdiFareRule = result?;
-        fare_rule.fare_id = to_correct_id(&tt, &fare_rule.fare_id);
-        if fare_rule.origin_id.is_some() {
-            fare_rule.origin_id = Some(format!(
-                "ZONE_{}",
-                to_correct_id(&tt, &fare_rule.origin_id.unwrap())
-            ));
-        }
-        if fare_rule.destination_id.is_some() {
-            fare_rule.destination_id = Some(format!(
-                "ZONE_{}",
-                to_correct_id(&tt, &fare_rule.destination_id.unwrap())
-            ));
-        }
-        fare_rules.push(fare_rule);
-    }
-
-    for result in ReaderBuilder::new()
-        .trim(Trim::Headers)
-        .from_reader(fare_rules_mobile_string.as_bytes())
-        .deserialize()
-    {
-        let mut fare_rule: KdiFareRule = result?;
-        fare_rule.fare_id = to_correct_id(&tt, &fare_rule.fare_id);
-        if fare_rule.origin_id.is_some() {
-            fare_rule.origin_id = Some(format!(
-                "ZONE_{}",
-                to_correct_id(&tt, &fare_rule.origin_id.unwrap())
-            ));
-        }
-        if fare_rule.destination_id.is_some() {
-            fare_rule.destination_id = Some(format!(
-                "ZONE_{}",
-                to_correct_id(&tt, &fare_rule.destination_id.unwrap())
-            ));
-        }
-        fare_rules.push(fare_rule);
-    }
-
-    fare_rules.sort_by(|a, b| a.fare_id.cmp(&b.fare_id));
-
-    Ok(())
-}
+*/
