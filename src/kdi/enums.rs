@@ -1,19 +1,15 @@
 use gtfs_structures::{Availability, BikesAllowedType, DirectionType, Exception, RouteType};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use serde_repr::Deserialize_repr;
 use strum_macros::{EnumString, EnumVariantNames};
 
 #[derive(Debug, Serialize, EnumString, EnumVariantNames)]
-#[serde(rename(serialize = "LocationTypeEnum"))]
-pub enum KdiLocationTypeEnum {
-    Zone,
-    TrainStop,
-    BusStop,
-    CableCarStop,
-    BikeSharingStop,
-    BikeParkingStop,
-    CarSharingStop,
-    TaxiStop,
+#[serde(rename(serialize = "ParkingStopEnum"))]
+pub enum KdiParkingStopEnum {
+    BikeSharing,
+    BikeParking,
+    CarSharing,
+    Taxi,
 }
 
 #[derive(Debug, Serialize, Deserialize_repr, EnumString, EnumVariantNames)]
@@ -26,6 +22,7 @@ pub enum KdiPaymentEnum {
 
 #[derive(Debug, Serialize, Deserialize, EnumString, EnumVariantNames)]
 #[serde(rename(serialize = "CurrencyEnum"))]
+#[allow(clippy::upper_case_acronyms)]
 pub enum KdiCurrencyEnum {
     EUR,
 }
