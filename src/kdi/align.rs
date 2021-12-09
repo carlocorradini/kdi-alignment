@@ -575,7 +575,6 @@ pub fn align_public_transport_stop(
             } else {
                 None
             },
-            // TODO Fixme!
             ptype: Vec::new(),
             weelchair: KdiSupportedEnum::from(stop.wheelchair_boarding),
         });

@@ -101,7 +101,7 @@ impl From<Exception> for KdiExceptionEnum {
     }
 }
 
-#[derive(Debug, Serialize, EnumString, EnumVariantNames, PartialEq, Eq)]
+#[derive(Debug, Serialize, EnumString, EnumVariantNames, PartialEq, Eq, Clone, Hash)]
 #[serde(rename(serialize = "TransportEnum"))]
 pub enum KdiTransportEnum {
     Rail,

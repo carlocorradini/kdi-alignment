@@ -1,4 +1,4 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Serialize, Serializer};
 
 use super::enums::{
     KdiCurrencyEnum, KdiDirectionEnum, KdiExceptionEnum, KdiFareEnum, KdiParkingStopEnum,
@@ -117,8 +117,16 @@ pub struct KdiBikeSharingStop {
 pub struct KdiPublicTransportStop {
     pub location: String,
     pub zone: Option<String>,
+    #[serde(serialize_with = "ptype_serialization")]
     pub ptype: Vec<KdiTransportEnum>,
     pub weelchair: KdiSupportedEnum,
+}
+
+fn ptype_serialization<S>(t: &Vec<KdiTransportEnum>, s: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    s.serialize_str(&format!("{:?}", t.iter().map(|transport| format!("{:?}", transport)).collect::<Vec<String>>()))
 }
 
 #[derive(Debug, Serialize)]

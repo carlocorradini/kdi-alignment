@@ -6,6 +6,7 @@ use kdi::enums::KdiFareEnum;
 use log::{debug, info, LevelFilter};
 use serde_json::json;
 use serde_xml_rs::{self};
+use std::collections::{HashMap, HashSet};
 use std::error::Error;
 use std::fs::{self, File};
 use strum::VariantNames;
@@ -243,22 +244,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         format!("{}/bike_sharing_stops.json", ALIGNEMENT_DIR),
         serde_json::to_string(&bike_sharing_stops)?,
     )?;
-    // - PublicTransportStop
-    let mut public_transport_stops: Vec<KdiPublicTransportStop> = Vec::new();
-    info!("Aligning `Core::PublicTransportStop`");
-    debug!("Aligning extraurban `Core::PublicTransportStop`");
-    align::align_public_transport_stop(
-        &gtfs_extraurban,
-        &mut public_transport_stops,
-        TT::ExtraUrban,
-    )?;
-    debug!("Aligning urban `Core::PublicTransportStop`");
-    align::align_public_transport_stop(&gtfs_urban, &mut public_transport_stops, TT::Urban)?;
-    info!("Writing `public_transport_stops.json` file");
-    fs::write(
-        format!("{}/public_transport_stops.json", ALIGNEMENT_DIR),
-        serde_json::to_string(&public_transport_stops)?,
-    )?;
+
     // - StopTime
     let mut stop_times: Vec<KdiStopTime> = Vec::new();
     info!("Aligning `Core::StopTime`");
@@ -294,6 +280,56 @@ fn main() -> Result<(), Box<dyn Error>> {
     fs::write(
         format!("{}/routes.json", ALIGNEMENT_DIR),
         serde_json::to_string(&routes)?,
+    )?;
+    // - PublicTransportStop
+    let mut public_transport_stops: Vec<KdiPublicTransportStop> = Vec::new();
+    info!("Aligning `Core::PublicTransportStop`");
+    debug!("Aligning extraurban `Core::PublicTransportStop`");
+    align::align_public_transport_stop(
+        &gtfs_extraurban,
+        &mut public_transport_stops,
+        TT::ExtraUrban,
+    )?;
+    debug!("Aligning urban `Core::PublicTransportStop`");
+    align::align_public_transport_stop(&gtfs_urban, &mut public_transport_stops, TT::Urban)?;
+    // -_-
+    let mut transport_mapping: HashMap<&String, HashSet<KdiTransportEnum>> = HashMap::new();
+    for stop in public_transport_stops.iter_mut() {
+        let stop_times_filtered: Vec<&KdiStopTime> = stop_times
+            .iter()
+            .filter(|st| st.stop == stop.location)
+            .collect();
+        let trips_filtered: Vec<&KdiTrip> = trips
+            .iter()
+            .filter(|t| stop_times_filtered.iter().any(|&st| st.trip == t.id))
+            .collect();
+        let routes_filtered: Vec<&KdiRoute> = routes
+            .iter()
+            .filter(|r| trips_filtered.iter().any(|&t| t.route == r.id))
+            .collect();
+
+        for route in &routes_filtered {
+            if !transport_mapping.contains_key(&stop.location) {
+                transport_mapping.insert(&stop.location, HashSet::new());
+            }
+            transport_mapping
+                .get_mut(&stop.location)
+                .unwrap()
+                .insert(route.transport.clone());
+        }
+
+        stop.ptype = Vec::from_iter(
+            transport_mapping
+                .get(&stop.location)
+                .unwrap()
+                .iter()
+                .map(|t| t.clone()),
+        );
+    }
+    info!("Writing `public_transport_stops.json` file");
+    fs::write(
+        format!("{}/public_transport_stops.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&public_transport_stops)?,
     )?;
 
     // --- CONTEXTUAL
@@ -346,40 +382,6 @@ fn main() -> Result<(), Box<dyn Error>> {
         format!("{}/transport_enum.json", ALIGNEMENT_DIR),
         serde_json::to_string(&json!({ "value": KdiTransportEnum::VARIANTS }))?,
     )?;
-    /*
-    let mut a: HashMap<&String, &KdiTransportEnum> = HashMap::new();
-
-    for stop in &stops {
-        println!("Evaluating Stop {}", stop.id);
-        let stop_times_filtered: Vec<&KdiStopTime> = stop_times
-            .iter()
-            .filter(|st| st.stop_id == stop.id)
-            .collect();
-        let trips_filtered: Vec<&KdiTrip> = trips
-            .iter()
-            .filter(|t| stop_times_filtered.iter().any(|&st| st.trip_id == t.id))
-            .collect();
-        let routes_filtered: Vec<&KdiRoute> = routes
-            .iter()
-            .filter(|r| trips_filtered.iter().any(|&t| t.route_id == r.id))
-            .collect();
-
-        for route in &routes_filtered {
-            if !a.contains_key(&stop.id) {
-                a.insert(&stop.id, &route.transport);
-            } else if a.get(&stop.id).unwrap().eq(&&route.transport) {
-                // OK
-            } else {
-                panic!(
-                    "Found Stop {} having transport {:?} and {:?}",
-                    stop.id,
-                    a.get(&stop.id).unwrap(),
-                    route.transport
-                );
-            }
-        }
-    }
-    */
 
     Ok(())
 }
