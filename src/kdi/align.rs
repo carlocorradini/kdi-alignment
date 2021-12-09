@@ -109,7 +109,7 @@ pub fn align_location_car_sharing(
         let coordinate: Vec<_> = placemark
             .point
             .coordinates
-            .split(",")
+            .split(',')
             .map(|c| c.parse::<f64>().unwrap())
             .collect();
         assert!(coordinate.len() == 2);
@@ -136,7 +136,7 @@ pub fn align_location_centro_in_bici(
         let coordinate: Vec<_> = placemark
             .point
             .coordinates
-            .split(",")
+            .split(',')
             .map(|c| c.parse::<f64>().unwrap())
             .collect();
         assert!(coordinate.len() == 2);
@@ -169,7 +169,7 @@ pub fn align_location_parcheggio_protetto_biciclette(
         let coordinate: Vec<_> = placemark
             .point
             .coordinates
-            .split(",")
+            .split(',')
             .map(|c| c.parse::<f64>().unwrap())
             .collect();
         assert!(coordinate.len() == 2);
@@ -196,7 +196,7 @@ pub fn align_location_taxi(
         let coordinate: Vec<_> = placemark
             .point
             .coordinates
-            .split(",")
+            .split(',')
             .map(|c| c.parse::<f64>().unwrap())
             .collect();
         assert!(coordinate.len() == 2);
