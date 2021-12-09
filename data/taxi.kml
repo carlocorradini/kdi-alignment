@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document id="root_doc">
+		<Schema name="taxi" id="taxi">
+			<SimpleField name="Name" type="string"></SimpleField>
+			<SimpleField name="Description" type="string"></SimpleField>
+			<SimpleField name="nome" type="string"></SimpleField>
+			<SimpleField name="indirizzo" type="string"></SimpleField>
+			<SimpleField name="x" type="float"></SimpleField>
+			<SimpleField name="y" type="float"></SimpleField>
+		</Schema>
+		<Folder>
+			<name>taxi</name>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#taxi">
+						<SimpleData name="nome">TAXI TRENTO - VIA SANTA CROCE</SimpleData>
+						<SimpleData name="indirizzo">via S.Croce n. 26</SimpleData>
+						<SimpleData name="x">46.064461</SimpleData>
+						<SimpleData name="y">11.12323</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.123229999999628,46.064460999984192</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#taxi">
+						<SimpleData name="nome">TAXI TRENTO - VIA DELLA SCIENZA E DEL LAVORO</SimpleData>
+						<SimpleData name="indirizzo">via della Scienza e del Lavoro</SimpleData>
+						<SimpleData name="x">46.059791</SimpleData>
+						<SimpleData name="y">11.11596</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.115959999999633,46.059790999984344</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#taxi">
+						<SimpleData name="nome">TAXI TRENTO - PIAZZA DUOMO</SimpleData>
+						<SimpleData name="indirizzo">piazza Duomo, 45</SimpleData>
+						<SimpleData name="x">46.067866</SimpleData>
+						<SimpleData name="y">11.121281</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.121280999999628,46.067865999984214</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#taxi">
+						<SimpleData name="nome">TAXI TRENTO - PIAZZA DANTE</SimpleData>
+						<SimpleData name="indirizzo">piazza Dante, 9</SimpleData>
+						<SimpleData name="x">46.072017</SimpleData>
+						<SimpleData name="y">11.121362</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.121361999999626,46.072016999984214</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#taxi">
+						<SimpleData name="nome">TAXI TRENTO - VIA PETRARCA</SimpleData>
+						<SimpleData name="indirizzo">via Petrarca 8</SimpleData>
+						<SimpleData name="x">46.074755</SimpleData>
+						<SimpleData name="y">11.123907</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.123906999999628,46.074754999984151</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#taxi">
+						<SimpleData name="nome">TAXI TRENTO - PIAZZALE ZUFFO</SimpleData>
+						<SimpleData name="indirizzo">piazzale Zuffo</SimpleData>
+						<SimpleData name="x">46.075811</SimpleData>
+						<SimpleData name="y">11.109615</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.109614999999634,46.075810999984476</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#taxi">
+						<SimpleData name="nome">TAXI TRENTO - VIA GILLI</SimpleData>
+						<SimpleData name="indirizzo">via Gilli 4</SimpleData>
+						<SimpleData name="x">46.090976</SimpleData>
+						<SimpleData name="y">11.118946</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.11894599999963,46.090975999984252</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#taxi">
+						<SimpleData name="nome">TAXI TRENTO - VIA DEGASPERI</SimpleData>
+						<SimpleData name="indirizzo">via Degasperi 77</SimpleData>
+						<SimpleData name="x">46.044135</SimpleData>
+						<SimpleData name="y">11.129531</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.129530999999627,46.044134999984067</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#taxi">
+						<SimpleData name="nome">TAXI TRENTO - LARGO MEDAGLIE D'ORO</SimpleData>
+						<SimpleData name="indirizzo">Largo Medaglie d'oro 9</SimpleData>
+						<SimpleData name="x">46.057744</SimpleData>
+						<SimpleData name="y">11.132683</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.132682999999624,46.05774399998397</coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+	</Document>
+</kml>

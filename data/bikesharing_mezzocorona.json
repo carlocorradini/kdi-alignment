@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Borgata - Trento-Malè",
+        "address": "Piazza San Gottardo",
+        "id": "Borgata - Trento-Malè - Mezzocorona",
+        "bikes": 0,
+        "slots": 0,
+        "totalSlots": 0,
+        "position": [
+            46.21425992031754,
+            11.11867249384243
+        ]
+    },
+    {
+        "name": "Cavalleggeri",
+        "address": "Via Cavalleggeri, 19",
+        "id": "Cavalleggeri - Mezzocorona",
+        "bikes": 0,
+        "slots": 0,
+        "totalSlots": 0,
+        "position": [
+            46.21604742113538,
+            11.120071411726162
+        ]
+    },
+    {
+        "name": "Stazione TN-Malè - RFI",
+        "address": "Piazza Trento",
+        "id": "Stazione TN-Malè - RFI - Mezzocorona",
+        "bikes": 0,
+        "slots": 0,
+        "totalSlots": 0,
+        "position": [
+            46.20661229117257,
+            11.127350324192488
+        ]
+    }
+]

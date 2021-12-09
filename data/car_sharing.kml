@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document id="root_doc">
+		<Schema name="car_sharing" id="car_sharing">
+			<SimpleField name="Name" type="string"></SimpleField>
+			<SimpleField name="Description" type="string"></SimpleField>
+			<SimpleField name="nomepos" type="string"></SimpleField>
+			<SimpleField name="via" type="string"></SimpleField>
+			<SimpleField name="auto" type="float"></SimpleField>
+		</Schema>
+		<Folder>
+			<name>car_sharing</name>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#car_sharing">
+						<SimpleData name="nomepos">Piazza Fiera</SimpleData>
+						<SimpleData name="via">via S. Croce (sul lato destro della strada tra la Cassa Rurale e il Ristorante Pedavena)</SimpleData>
+						<SimpleData name="auto">1</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.123294999999628,46.064692999984175</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#car_sharing">
+						<SimpleData name="nomepos">Piazza Venezia</SimpleData>
+						<SimpleData name="via">Piazza Venezia (zona Port'Aquila-vicino panificio)</SimpleData>
+						<SimpleData name="auto">1</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.127660999999625,46.069520999984078</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#car_sharing">
+						<SimpleData name="nomepos">Federazione Trentina Cooperative</SimpleData>
+						<SimpleData name="via">Via Segantini (negli spazi assegnati presso la Federazione Trentina delle Cooperative)</SimpleData>
+						<SimpleData name="auto">1</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.121712999999628,46.074629999984211</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#car_sharing">
+						<SimpleData name="nomepos">Piazza Dante</SimpleData>
+						<SimpleData name="via">Piazza Dante (sul lato sinistro della strada vicino all’accesso al Parco di fronte al Palazzo della Regione)</SimpleData>
+						<SimpleData name="auto">1</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.121272999999629,46.071149999984222</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<ExtendedData>
+					<SchemaData schemaUrl="#car_sharing">
+						<SimpleData name="nomepos">Ospedale</SimpleData>
+						<SimpleData name="via">Via Gocciadoro (nel parcheggio posto tra la Piscina Fogazzaro e l’Ospedale, di fianco al Ristorante Loto)</SimpleData>
+						<SimpleData name="auto">1</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.131105347304533,46.05629094282083</coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+	</Document>
+</kml>

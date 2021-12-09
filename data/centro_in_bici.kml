@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document id="root_doc">
+		<Schema name="centro_in_bici" id="centro_in_bici">
+			<SimpleField name="Name" type="string"></SimpleField>
+			<SimpleField name="Description" type="string"></SimpleField>
+			<SimpleField name="desc" type="string"></SimpleField>
+			<SimpleField name="layer" type="string"></SimpleField>
+			<SimpleField name="cicloposteggi" type="int"></SimpleField>
+		</Schema>
+		<Folder>
+			<name>centro_in_bici</name>
+			<Placemark>
+				<name>PIAZZA DANTE: via Torre Vanga - stazione autocorriere</name>
+				<description>PIAZZA DANTE: via Torre Vanga - stazione autocorriere</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#centro_in_bici">
+						<SimpleData name="desc">PIAZZA DANTE: via Torre Vanga - stazione autocorriere</SimpleData>
+						<SimpleData name="layer">C'entro in bici</SimpleData>
+						<SimpleData name="cicloposteggi">8</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.119819738161901,46.070378164156743</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>PIAZZA DANTE: via Alfieri - Palazzo della Regione</name>
+				<description>PIAZZA DANTE: via Alfieri - Palazzo della Regione</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#centro_in_bici">
+						<SimpleData name="desc">PIAZZA DANTE: via Alfieri - Palazzo della Regione</SimpleData>
+						<SimpleData name="layer">C'entro in bici</SimpleData>
+						<SimpleData name="cicloposteggi">8</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.121214281662683,46.071470952757771</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>PIAZZA DANTE: stazione FFSS - capolinea autobus urbani</name>
+				<description>PIAZZA DANTE: stazione FFSS - capolinea autobus urbani</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#centro_in_bici">
+						<SimpleData name="desc">PIAZZA DANTE: stazione FFSS - capolinea autobus urbani</SimpleData>
+						<SimpleData name="layer">C'entro in bici</SimpleData>
+						<SimpleData name="cicloposteggi">20</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.119335888226276,46.071949235641867</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>VIA DOGANA: stazione ferrovia Trento - Malé</name>
+				<description>VIA DOGANA: stazione ferrovia Trento - Malé</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#centro_in_bici">
+						<SimpleData name="desc">VIA DOGANA: stazione ferrovia Trento - Malé</SimpleData>
+						<SimpleData name="layer">C'entro in bici</SimpleData>
+						<SimpleData name="cicloposteggi">4</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.120462715326541,46.073700002990201</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>PARCHEGGIO DUOMO: via Sanseverino</name>
+				<description>PARCHEGGIO DUOMO: via Sanseverino</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#centro_in_bici">
+						<SimpleData name="desc">PARCHEGGIO DUOMO: via Sanseverino</SimpleData>
+						<SimpleData name="layer">C'entro in bici</SimpleData>
+						<SimpleData name="cicloposteggi">4</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.115106818338075,46.066722229094914</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>PIAZZA VICENZA</name>
+				<description>PIAZZA VICENZA</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#centro_in_bici">
+						<SimpleData name="desc">PIAZZA VICENZA (fermata autosus)</SimpleData>
+						<SimpleData name="layer">C'entro in bici</SimpleData>
+						<SimpleData name="cicloposteggi">4</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.133499343801738,46.062626296414386</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>PIAZZALE EX ZUFFO</name>
+				<description>PIAZZALE EX ZUFFO</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#centro_in_bici">
+						<SimpleData name="desc">PIAZZALE EX ZUFFO</SimpleData>
+						<SimpleData name="layer">C'entro in bici</SimpleData>
+						<SimpleData name="cicloposteggi">8</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.110052009030252,46.075068991694671</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>PARCHEGGIO CANESTRINI</name>
+				<description>PARCHEGGIO CANESTRINI</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#centro_in_bici">
+						<SimpleData name="desc">PARCHEGGIO CANESTRINI</SimpleData>
+						<SimpleData name="layer">C'entro in bici</SimpleData>
+						<SimpleData name="cicloposteggi">4</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.115691348342185,46.06874163011323</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>PARCHEGGIO MONTE BALDO</name>
+				<description>PARCHEGGIO MONTE BALDO</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#centro_in_bici">
+						<SimpleData name="desc">PARCHEGGIO MONTE BALDO</SimpleData>
+						<SimpleData name="layer">C'entro in bici</SimpleData>
+						<SimpleData name="cicloposteggi">24</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.112663996567768,46.057369443207982</coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+	</Document>
+</kml>

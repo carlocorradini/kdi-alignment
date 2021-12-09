@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+	<Document id="root_doc">
+		<Schema name="parcheggio_protetto_bike" id="parcheggio_protetto_bike">
+			<SimpleField name="Name" type="string"></SimpleField>
+			<SimpleField name="Description" type="string"></SimpleField>
+			<SimpleField name="park" type="string"></SimpleField>
+			<SimpleField name="via" type="string"></SimpleField>
+			<SimpleField name="layer" type="string"></SimpleField>
+			<SimpleField name="posti" type="int"></SimpleField>
+		</Schema>
+		<Folder>
+			<name>parcheggio_protetto_bike</name>
+			<Placemark>
+				<name>Parcheggio protetto bike Stazione Trento</name>
+				<description>Parcheggio protetto bike Stazione Trento</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#parcheggio_protetto_bike">
+						<SimpleData name="park">Stazione Trento</SimpleData>
+						<SimpleData name="via">via Dogana civ. 14</SimpleData>
+						<SimpleData name="layer">Parcheggio protetto biciclette</SimpleData>
+						<SimpleData name="posti">200</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.12011609584675,46.072966313811349</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Parcheggio protetto bike Ex lavatoio pubblico</name>
+				<description>Parcheggio protetto bike Ex lavatoio pubblico</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#parcheggio_protetto_bike">
+						<SimpleData name="park">Ex lavatoio pubblico</SimpleData>
+						<SimpleData name="via">via della Saluga civ. 4</SimpleData>
+						<SimpleData name="layer">Parcheggio protetto biciclette</SimpleData>
+						<SimpleData name="posti">38</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.128581022728055,46.070092240988942</coordinates>
+				</Point>
+			</Placemark>
+			<Placemark>
+				<name>Parcheggio protetto bike Zuffo</name>
+				<description>Parcheggio protetto bike Zuffo</description>
+				<ExtendedData>
+					<SchemaData schemaUrl="#parcheggio_protetto_bike">
+						<SimpleData name="park">Area Ex Zuffo</SimpleData>
+						<SimpleData name="via">piazzale Ex Zuffo</SimpleData>
+						<SimpleData name="layer">Parcheggio protetto biciclette</SimpleData>
+						<SimpleData name="posti">228</SimpleData>
+					</SchemaData>
+				</ExtendedData>
+				<Point>
+					<coordinates>11.110395659535598,46.075066830564751</coordinates>
+				</Point>
+			</Placemark>
+		</Folder>
+	</Document>
+</kml>

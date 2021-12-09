@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Fiera",
+        "address": "via Cavalleggeri Udine 1",
+        "id": "Fiera - Mezzolombardo",
+        "bikes": 0,
+        "slots": 0,
+        "totalSlots": 0,
+        "position": [
+            46.21610309842586,
+            11.087624429371784
+        ]
+    },
+    {
+        "name": "Ospedale San Giovanni",
+        "address": "Via Carducci",
+        "id": "Ospedale San Giovanni - Mezzolombardo",
+        "bikes": 0,
+        "slots": 0,
+        "totalSlots": 0,
+        "position": [
+            46.21245958241063,
+            11.094517706968276
+        ]
+    },
+    {
+        "name": "Stazione TN-MALE'",
+        "address": "Via San Francesco, 4",
+        "id": "Stazione TN-MALE' - Mezzolombardo",
+        "bikes": 0,
+        "slots": 0,
+        "totalSlots": 0,
+        "position": [
+            46.21346390439162,
+            11.093116402922714
+        ]
+    }
+]

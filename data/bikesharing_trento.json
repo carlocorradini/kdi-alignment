@@ -1,0 +1,1094 @@
+[
+    {
+        "name": "10.01 Bren Center",
+        "address": "Via Guardini fr. civ. 75",
+        "id": "10.01 Bren Center - Trento",
+        "bikes": 2,
+        "slots": 15,
+        "totalSlots": 18,
+        "position": [
+            46.094653868146885,
+            11.117693389024225
+        ]
+    },
+    {
+        "name": "10.02 Top Center",
+        "address": "Via Pranzelores / Via Giuseppe Gilli",
+        "id": "10.02 Top Center - Trento",
+        "bikes": 6,
+        "slots": 15,
+        "totalSlots": 22,
+        "position": [
+            46.09010372321067,
+            11.118583717279193
+        ]
+    },
+    {
+        "name": "10.03 Piazza di Centa",
+        "address": "P.le di Centa / Via Vannetti",
+        "id": "10.03 Piazza di Centa - Trento",
+        "bikes": 2,
+        "slots": 8,
+        "totalSlots": 11,
+        "position": [
+            46.07538723420181,
+            11.12382177686004
+        ]
+    },
+    {
+        "name": "10.04 Piazza Venezia",
+        "address": "via Grazioli / piazza Venezia",
+        "id": "10.04 Piazza Venezia - Trento",
+        "bikes": 4,
+        "slots": 19,
+        "totalSlots": 23,
+        "position": [
+            46.06753791402558,
+            11.126987115869156
+        ]
+    },
+    {
+        "name": "10.06 Stazione Autocorriere",
+        "address": "Via Pozzo / Via Torre Vanga",
+        "id": "10.06 Stazione Autocorriere - Trento",
+        "bikes": 3,
+        "slots": 17,
+        "totalSlots": 20,
+        "position": [
+            46.07023563810641,
+            11.119849430688419
+        ]
+    },
+    {
+        "name": "10.07 Biblioteca",
+        "address": "Via Alfieri / Via Torre Vanga",
+        "id": "10.07 Biblioteca - Trento",
+        "bikes": 4,
+        "slots": 18,
+        "totalSlots": 22,
+        "position": [
+            46.07043395910254,
+            11.121399842327946
+        ]
+    },
+    {
+        "name": "10.08 Università",
+        "address": "Via Rosmini 50 - Università",
+        "id": "10.08 Università - Trento",
+        "bikes": 2,
+        "slots": 12,
+        "totalSlots": 15,
+        "position": [
+            46.06632943181332,
+            11.119020308598351
+        ]
+    },
+    {
+        "name": "10.09 Centro Santa Chiara",
+        "address": "Via S. Croce 78",
+        "id": "10.09 Centro Santa Chiara - Trento",
+        "bikes": 7,
+        "slots": 10,
+        "totalSlots": 18,
+        "position": [
+            46.06345393738132,
+            11.12375366752849
+        ]
+    },
+    {
+        "name": "10.10 Piscina",
+        "address": "via Fogazzaro / via Gocciadoro",
+        "id": "10.10 Piscina - Trento",
+        "bikes": 6,
+        "slots": 5,
+        "totalSlots": 11,
+        "position": [
+            46.05627509524844,
+            11.13094278895494
+        ]
+    },
+    {
+        "name": "10.11 Stazione F.S. - Ospedale",
+        "address": "Via Gocciadoro - Staz. S. Chiara",
+        "id": "10.11 Stazione F.S. - Ospedale - Trento",
+        "bikes": 4,
+        "slots": 7,
+        "totalSlots": 11,
+        "position": [
+            46.054586705531555,
+            11.135349258821861
+        ]
+    },
+    {
+        "name": "10.12 Azienda Sanitaria",
+        "address": "Via De Gasperi - Lato Trento Frutta",
+        "id": "10.12 Azienda Sanitaria - Trento",
+        "bikes": 5,
+        "slots": 11,
+        "totalSlots": 18,
+        "position": [
+            46.044433415996814,
+            11.12804971230321
+        ]
+    },
+    {
+        "name": "10.13 Lidorno",
+        "address": "via Lidorno / park Trento Sud",
+        "id": "10.13 Lidorno - Trento",
+        "bikes": 2,
+        "slots": 9,
+        "totalSlots": 11,
+        "position": [
+            46.03316279422745,
+            11.126252122229062
+        ]
+    },
+    {
+        "name": "10.14 Aeroporto",
+        "address": "Via Lidorno / Aeroporto Caproni",
+        "id": "10.14 Aeroporto - Trento",
+        "bikes": 1,
+        "slots": 7,
+        "totalSlots": 8,
+        "position": [
+            46.01983619754026,
+            11.127080654939277
+        ]
+    },
+    {
+        "name": "10.15 Muse",
+        "address": "Corso del Lavoro e della Scienza",
+        "id": "10.15 Muse - Trento",
+        "bikes": 3,
+        "slots": 6,
+        "totalSlots": 11,
+        "position": [
+            46.06137765005302,
+            11.116027144580812
+        ]
+    },
+    {
+        "name": "10.16 Bezzi",
+        "address": "Via Bezzi / Via Vittorio Veneto",
+        "id": "10.16 Bezzi - Trento",
+        "bikes": 1,
+        "slots": 5,
+        "totalSlots": 9,
+        "position": [
+            46.058020904033015,
+            11.119315767528406
+        ]
+    },
+    {
+        "name": "10.17 Gardolo",
+        "address": "Via IV Novembre / Piscina",
+        "id": "10.17 Gardolo - Trento",
+        "bikes": 2,
+        "slots": 9,
+        "totalSlots": 12,
+        "position": [
+            46.10407094472173,
+            11.112932473016372
+        ]
+    },
+    {
+        "name": "10.18 Vannetti",
+        "address": "piazza Dante / via Vannetti",
+        "id": "10.18 Vannetti - Trento",
+        "bikes": 2,
+        "slots": 5,
+        "totalSlots": 8,
+        "position": [
+            46.072996732945235,
+            11.121911281089751
+        ]
+    },
+    {
+        "name": "10.19 Cimitero",
+        "address": "via Madruzzo / via Rosmini",
+        "id": "10.19 Cimitero - Trento",
+        "bikes": 2,
+        "slots": 8,
+        "totalSlots": 10,
+        "position": [
+            46.063653753791996,
+            11.119203004368615
+        ]
+    },
+    {
+        "name": "10.20 Zuffo 1 - bike park",
+        "address": "piazzale Zuffo - Bike Park",
+        "id": "10.20 Zuffo 1 - bike park - Trento",
+        "bikes": 2,
+        "slots": 8,
+        "totalSlots": 10,
+        "position": [
+            46.07516784166884,
+            11.109941605738777
+        ]
+    },
+    {
+        "name": "10.21 Zuffo 2 via dos Trento",
+        "address": "piazzale Zuffo - uscita Via dos Trento",
+        "id": "10.21 Zuffo 2 via dos Trento - Trento",
+        "bikes": 0,
+        "slots": 12,
+        "totalSlots": 12,
+        "position": [
+            46.07508100896583,
+            11.109325880468887
+        ]
+    },
+    {
+        "name": "10.22 Ex Atesina - Lidl",
+        "address": "via del Brennero / via Marconi",
+        "id": "10.22 Ex Atesina - Lidl - Trento",
+        "bikes": 5,
+        "slots": 6,
+        "totalSlots": 11,
+        "position": [
+            46.083939246923265,
+            11.119624973661725
+        ]
+    },
+    {
+        "name": "10.23 Mattarello",
+        "address": "piazza Q. Perini",
+        "id": "10.23 Mattarello - Trento",
+        "bikes": 0,
+        "slots": 0,
+        "totalSlots": 0,
+        "position": [
+            46.00702098227519,
+            11.128427982384894
+        ]
+    },
+    {
+        "name": "10.24 Campo CONI",
+        "address": "corso degli Alpini",
+        "id": "10.24 Campo CONI - Trento",
+        "bikes": 5,
+        "slots": 7,
+        "totalSlots": 12,
+        "position": [
+            46.0796334,
+            11.1175789
+        ]
+    },
+    {
+        "name": "10.25 Studentato Mayer",
+        "address": "corso Buonarroti",
+        "id": "10.25 Studentato Mayer - Trento",
+        "bikes": 0,
+        "slots": 12,
+        "totalSlots": 12,
+        "position": [
+            46.07274305,
+            11.117380460211926
+        ]
+    },
+    {
+        "name": "10.26 Verona",
+        "address": "viale Verona / via Olmi",
+        "id": "10.26 Verona - Trento",
+        "bikes": 6,
+        "slots": 3,
+        "totalSlots": 11,
+        "position": [
+            46.049569,
+            11.1314005
+        ]
+    },
+    {
+        "name": "10.27 Clarina",
+        "address": "via De Gasperi / via Anna Frank",
+        "id": "10.27 Clarina - Trento",
+        "bikes": 2,
+        "slots": 10,
+        "totalSlots": 12,
+        "position": [
+            46.05060875,
+            11.124501949999999
+        ]
+    },
+    {
+        "name": "10.28 Barbacovi",
+        "address": "via Barbacovi / via Brigata Acqui",
+        "id": "10.28 Barbacovi - Trento",
+        "bikes": 2,
+        "slots": 10,
+        "totalSlots": 12,
+        "position": [
+            46.064865499999996,
+            11.127562949354296
+        ]
+    },
+    {
+        "name": "10.29 Gardolo - ex segheria",
+        "address": "via Feininger / piazzale Groff",
+        "id": "10.29 Gardolo - ex segheria - Trento",
+        "bikes": 4,
+        "slots": 1,
+        "totalSlots": 6,
+        "position": [
+            46.1079123,
+            11.1123636
+        ]
+    },
+    {
+        "name": "10.30 Maccani",
+        "address": "via Maccani / comando Polizia Locale",
+        "id": "10.30 Maccani - Trento",
+        "bikes": 1,
+        "slots": 11,
+        "totalSlots": 12,
+        "position": [
+            46.0906025,
+            11.108606
+        ]
+    },
+    {
+        "name": "10.31 Canova",
+        "address": "via Paludi / parcheggio campo sportivo",
+        "id": "10.31 Canova - Trento",
+        "bikes": 5,
+        "slots": 7,
+        "totalSlots": 12,
+        "position": [
+            46.0992211,
+            11.1092928
+        ]
+    },
+    {
+        "name": "10.32 Piedicastello",
+        "address": "piazza di Piedicastello / giardino Andreas Hofer",
+        "id": "10.32 Piedicastello - Trento",
+        "bikes": 3,
+        "slots": 9,
+        "totalSlots": 12,
+        "position": [
+            46.0710261,
+            11.1135181
+        ]
+    },
+    {
+        "name": "10.33 Stazione F.S. - Villazzano",
+        "address": "via Asiago",
+        "id": "10.33 Stazione F.S. - Villazzano - Trento",
+        "bikes": 4,
+        "slots": 8,
+        "totalSlots": 12,
+        "position": [
+            46.04433468674987,
+            11.139475704820809
+        ]
+    },
+    {
+        "name": "10.34 Madonna Bianca",
+        "address": "viale Menguzzato / viale Verona",
+        "id": "10.34 Madonna Bianca - Trento",
+        "bikes": 4,
+        "slots": 8,
+        "totalSlots": 12,
+        "position": [
+            46.04236497086108,
+            11.131472566902033
+        ]
+    },
+    {
+        "name": "10.35 Studentato San Bartolomeo",
+        "address": "via della Malpensada",
+        "id": "10.35 Studentato San Bartolomeo - Trento",
+        "bikes": 0,
+        "slots": 0,
+        "totalSlots": 0,
+        "position": [
+            46.04822307489584,
+            11.13376260422872
+        ]
+    },
+    {
+        "name": "10.36 Gorizia",
+        "address": "via Gorizia / via Vicenza",
+        "id": "10.36 Gorizia - Trento",
+        "bikes": 0,
+        "slots": 12,
+        "totalSlots": 12,
+        "position": [
+            46.06213571053228,
+            11.133018136024477
+        ]
+    },
+    {
+        "name": "10.37 Ospedale Santa Chiara",
+        "address": "largo Medaglie d'Oro",
+        "id": "10.37 Ospedale Santa Chiara - Trento",
+        "bikes": 4,
+        "slots": 5,
+        "totalSlots": 9,
+        "position": [
+            46.05750131368081,
+            11.132851839065554
+        ]
+    },
+    {
+        "name": "10.38 PalaTrento",
+        "address": "via Fersina / via Bartali",
+        "id": "10.38 PalaTrento - Trento",
+        "bikes": 2,
+        "slots": 10,
+        "totalSlots": 12,
+        "position": [
+            46.040255708142865,
+            11.12395763397217
+        ]
+    },
+    {
+        "name": "10.39 Roncafort",
+        "address": "via Caneppele",
+        "id": "10.39 Roncafort - Trento",
+        "bikes": 1,
+        "slots": 11,
+        "totalSlots": 12,
+        "position": [
+            46.097742440086286,
+            11.10248923301697
+        ]
+    },
+    {
+        "name": "10.40 Cimitero Villazzano",
+        "address": "via Valnigra",
+        "id": "10.40 Cimitero Villazzano - Trento",
+        "bikes": 1,
+        "slots": 11,
+        "totalSlots": 12,
+        "position": [
+            46.05126194507644,
+            11.145029067993166
+        ]
+    },
+    {
+        "name": "10.41 Piedicastello - Ex Italcementi",
+        "address": "Lungadige San Nicolò",
+        "id": "10.41 Piedicastello - Ex Italcementi - Trento",
+        "bikes": 1,
+        "slots": 10,
+        "totalSlots": 12,
+        "position": [
+            46.069620649630544,
+            11.113765239715576
+        ]
+    },
+    {
+        "name": "10.42 Ponte dei Cavalleggeri",
+        "address": "via Verona/ viale Rovereto",
+        "id": "10.42 Ponte dei Cavalleggeri - Trento",
+        "bikes": 3,
+        "slots": 0,
+        "totalSlots": 3,
+        "position": [
+            46.05898536122541,
+            11.127161978434302
+        ]
+    },
+    {
+        "name": "11.01 Ospedale San Giovanni",
+        "address": "via Carducci",
+        "id": "11.01 Ospedale San Giovanni - Trento",
+        "bikes": 3,
+        "slots": 8,
+        "totalSlots": 11,
+        "position": [
+            46.21247608657037,
+            11.094596377458556
+        ]
+    },
+    {
+        "name": "11.02 Stazione TN-Malè",
+        "address": "via San Francesco",
+        "id": "11.02 Stazione TN-Malè - Trento",
+        "bikes": 0,
+        "slots": 0,
+        "totalSlots": 0,
+        "position": [
+            46.213434204248394,
+            11.09308123858651
+        ]
+    },
+    {
+        "name": "11.03 Fiera",
+        "address": "via Cavalleggeri Udine",
+        "id": "11.03 Fiera - Trento",
+        "bikes": 1,
+        "slots": 9,
+        "totalSlots": 12,
+        "position": [
+            46.216054427937365,
+            11.087515357976907
+        ]
+    },
+    {
+        "name": "12.01 Cavalleggeri",
+        "address": "via Cavalleggeri via Romana",
+        "id": "12.01 Cavalleggeri - Trento",
+        "bikes": 1,
+        "slots": 10,
+        "totalSlots": 12,
+        "position": [
+            46.21603298527606,
+            11.120020151138307
+        ]
+    },
+    {
+        "name": "12.02 Borgata",
+        "address": "Piazza San Gottardo",
+        "id": "12.02 Borgata - Trento",
+        "bikes": 4,
+        "slots": 7,
+        "totalSlots": 11,
+        "position": [
+            46.21419929496722,
+            11.11868977546692
+        ]
+    },
+    {
+        "name": "12.03 Stazione TN-Malè",
+        "address": "piazza Trento",
+        "id": "12.03 Stazione TN-Malè - Trento",
+        "bikes": 3,
+        "slots": 15,
+        "totalSlots": 18,
+        "position": [
+            46.206537222101744,
+            11.127315759658815
+        ]
+    },
+    {
+        "name": "13.01 Municipio",
+        "address": "via Biasi",
+        "id": "13.01 Municipio - Trento",
+        "bikes": 2,
+        "slots": 9,
+        "totalSlots": 11,
+        "position": [
+            46.19264823156244,
+            11.133899091193692
+        ]
+    },
+    {
+        "name": "13.02 Mach",
+        "address": "via Biasi / Fondazione Mach",
+        "id": "13.02 Mach - Trento",
+        "bikes": 1,
+        "slots": 11,
+        "totalSlots": 12,
+        "position": [
+            46.1912808553082,
+            11.135063177185971
+        ]
+    },
+    {
+        "name": "14.01 Nave San Rocco",
+        "address": "via IV Novembre",
+        "id": "14.01 Nave San Rocco - Trento",
+        "bikes": 4,
+        "slots": 2,
+        "totalSlots": 6,
+        "position": [
+            46.16675077351709,
+            11.107102632522583
+        ]
+    },
+    {
+        "name": "14.02 Zambana",
+        "address": "via XXV Novembre",
+        "id": "14.02 Zambana - Trento",
+        "bikes": 2,
+        "slots": 3,
+        "totalSlots": 5,
+        "position": [
+            46.15178023019811,
+            11.096625924110413
+        ]
+    },
+    {
+        "name": "15.01 Grazioli",
+        "address": "piazza Grazioli",
+        "id": "15.01 Grazioli - Trento",
+        "bikes": 2,
+        "slots": 8,
+        "totalSlots": 10,
+        "position": [
+            46.139764436118334,
+            11.11141562461853
+        ]
+    },
+    {
+        "name": "15.02 Pressano",
+        "address": "piazza della Croce",
+        "id": "15.02 Pressano - Trento",
+        "bikes": 0,
+        "slots": 7,
+        "totalSlots": 7,
+        "position": [
+            46.153549114165465,
+            11.106646656990053
+        ]
+    },
+    {
+        "name": "15.03 Stazione F.S.",
+        "address": "via Stazione",
+        "id": "15.03 Stazione F.S. - Trento",
+        "bikes": 3,
+        "slots": 7,
+        "totalSlots": 10,
+        "position": [
+            46.14813451479769,
+            11.096781492233278
+        ]
+    },
+    {
+        "name": "15.04 Stazione TN-Malè",
+        "address": "via Nazionale",
+        "id": "15.04 Stazione TN-Malè - Trento",
+        "bikes": 1,
+        "slots": 10,
+        "totalSlots": 11,
+        "position": [
+            46.140236494841126,
+            11.106351613998413
+        ]
+    },
+    {
+        "name": "16.01 Aldeno",
+        "address": "via Damiano Chiesa",
+        "id": "16.01 Aldeno - Trento",
+        "bikes": 3,
+        "slots": 9,
+        "totalSlots": 12,
+        "position": [
+            45.97679680939393,
+            11.09124541282654
+        ]
+    },
+    {
+        "name": "17.01 Besenello",
+        "address": "via De Gasperi / via Vanzetti",
+        "id": "17.01 Besenello - Trento",
+        "bikes": 3,
+        "slots": 5,
+        "totalSlots": 8,
+        "position": [
+            45.94285042378801,
+            11.109902858734133
+        ]
+    },
+    {
+        "name": "18.01 Calliano",
+        "address": "via De Gasperi / via Valentini",
+        "id": "18.01 Calliano - Trento",
+        "bikes": 3,
+        "slots": 6,
+        "totalSlots": 9,
+        "position": [
+            45.93517296568616,
+            11.094120740890505
+        ]
+    },
+    {
+        "name": "19.01 Nomi",
+        "address": "via Roma",
+        "id": "19.01 Nomi - Trento",
+        "bikes": 4,
+        "slots": 2,
+        "totalSlots": 6,
+        "position": [
+            45.928744422022035,
+            11.072502136230469
+        ]
+    },
+    {
+        "name": "20.01 Stazione F.S.",
+        "address": "piazzale Orsi / Ist. G. Veronesi",
+        "id": "20.01 Stazione F.S. - Trento",
+        "bikes": 6,
+        "slots": 5,
+        "totalSlots": 11,
+        "position": [
+            45.89130005189873,
+            11.03480100631714
+        ]
+    },
+    {
+        "name": "20.02 Ospedale",
+        "address": "corso Verona / parcheggio ospedale",
+        "id": "20.02 Ospedale - Trento",
+        "bikes": 4,
+        "slots": 7,
+        "totalSlots": 11,
+        "position": [
+            45.882174012221924,
+            11.04006350040436
+        ]
+    },
+    {
+        "name": "20.03 Municipio",
+        "address": "via Calcinari",
+        "id": "20.03 Municipio - Trento",
+        "bikes": 3,
+        "slots": 3,
+        "totalSlots": 6,
+        "position": [
+            45.88700233701336,
+            11.044102907180786
+        ]
+    },
+    {
+        "name": "20.04 Mart",
+        "address": "via Bettini / museo Mart",
+        "id": "20.04 Mart - Trento",
+        "bikes": 1,
+        "slots": 5,
+        "totalSlots": 6,
+        "position": [
+            45.89392108399568,
+            11.044027805328371
+        ]
+    },
+    {
+        "name": "20.05 Zona Industriale",
+        "address": "via Caproni / park Laghiol-LuxotticA",
+        "id": "20.05 Zona Industriale - Trento",
+        "bikes": 3,
+        "slots": 3,
+        "totalSlots": 6,
+        "position": [
+            45.86622598315121,
+            11.015489101409912
+        ]
+    },
+    {
+        "name": "20.06 Paoli",
+        "address": "via Manzoni / via Paoli",
+        "id": "20.06 Paoli - Trento",
+        "bikes": 0,
+        "slots": 11,
+        "totalSlots": 11,
+        "position": [
+            45.891714496830886,
+            11.039929389953615
+        ]
+    },
+    {
+        "name": "20.07 Marco",
+        "address": "via 2 Novembre / via Alveo - scuola",
+        "id": "20.07 Marco - Trento",
+        "bikes": 4,
+        "slots": 2,
+        "totalSlots": 6,
+        "position": [
+            45.84137230046983,
+            11.008247137069702
+        ]
+    },
+    {
+        "name": "20.08 Lizzana",
+        "address": "piazza Guella / via Montello",
+        "id": "20.08 Lizzana - Trento",
+        "bikes": 2,
+        "slots": 6,
+        "totalSlots": 9,
+        "position": [
+            45.86746572741939,
+            11.031937597273346
+        ]
+    },
+    {
+        "name": "20.09 Sacco",
+        "address": "via Vittoria / via Unione",
+        "id": "20.09 Sacco - Trento",
+        "bikes": 8,
+        "slots": 4,
+        "totalSlots": 12,
+        "position": [
+            45.884736556029324,
+            11.023138757238133
+        ]
+    },
+    {
+        "name": "20.10 Noriglio",
+        "address": "via Noriglio / ex scuola D. Chiesa",
+        "id": "20.10 Noriglio - Trento",
+        "bikes": 3,
+        "slots": 4,
+        "totalSlots": 7,
+        "position": [
+            45.883684746833914,
+            11.070397493293102
+        ]
+    },
+    {
+        "name": "20.11 Brione",
+        "address": "via Perosi / via Puccini",
+        "id": "20.11 Brione - Trento",
+        "bikes": 4,
+        "slots": 1,
+        "totalSlots": 5,
+        "position": [
+            45.90415926672284,
+            11.04371964990823
+        ]
+    },
+    {
+        "name": "20.12 Rosmini",
+        "address": "piazza Rosmini",
+        "id": "20.12 Rosmini - Trento",
+        "bikes": 2,
+        "slots": 4,
+        "totalSlots": 6,
+        "position": [
+            45.89094658929088,
+            11.043007971667091
+        ]
+    },
+    {
+        "name": "20.13 Quercia",
+        "address": "via Palestrina 3",
+        "id": "20.13 Quercia - Trento",
+        "bikes": 2,
+        "slots": 4,
+        "totalSlots": 6,
+        "position": [
+            45.90013008440864,
+            11.037017111949822
+        ]
+    },
+    {
+        "name": "20.14 Orvea",
+        "address": "via Del Garda / via dell'Industria",
+        "id": "20.14 Orvea - Trento",
+        "bikes": 3,
+        "slots": 8,
+        "totalSlots": 11,
+        "position": [
+            45.87198655740324,
+            11.020448209402966
+        ]
+    },
+    {
+        "name": "20.15 Stazione Mori",
+        "address": "strada Provinciale 23",
+        "id": "20.15 Stazione Mori - Trento",
+        "bikes": 2,
+        "slots": 9,
+        "totalSlots": 11,
+        "position": [
+            45.861125632734606,
+            11.002151959111869
+        ]
+    },
+    {
+        "name": "20.16 Balista",
+        "address": "via Antonio Balista",
+        "id": "20.16 Balista - Trento",
+        "bikes": 4,
+        "slots": 5,
+        "totalSlots": 9,
+        "position": [
+            45.896148742119564,
+            11.030445106584988
+        ]
+    },
+    {
+        "name": "20.17 Piscina",
+        "address": "via Udine / zona est parcheggio",
+        "id": "20.17 Piscina - Trento",
+        "bikes": 3,
+        "slots": 8,
+        "totalSlots": 11,
+        "position": [
+            45.88448178574327,
+            11.033685347067875
+        ]
+    },
+    {
+        "name": "20.18 Baldresca",
+        "address": "via della Roggia",
+        "id": "20.18 Baldresca - Trento",
+        "bikes": 2,
+        "slots": 4,
+        "totalSlots": 6,
+        "position": [
+            45.88053460157242,
+            11.028776764869692
+        ]
+    },
+    {
+        "name": "20.19 Follone",
+        "address": "piazza Achille Leoni",
+        "id": "20.19 Follone - Trento",
+        "bikes": 3,
+        "slots": 9,
+        "totalSlots": 12,
+        "position": [
+            45.88894773828992,
+            11.039403676986696
+        ]
+    },
+    {
+        "name": "20.20 Cimitero",
+        "address": "via Parteli",
+        "id": "20.20 Cimitero - Trento",
+        "bikes": 2,
+        "slots": 8,
+        "totalSlots": 10,
+        "position": [
+            45.8966643647806,
+            11.037163734508797
+        ]
+    },
+    {
+        "name": "20.21 Polo Meccatronica",
+        "address": "via Fortunato Zeni",
+        "id": "20.21 Polo Meccatronica - Trento",
+        "bikes": 1,
+        "slots": 11,
+        "totalSlots": 12,
+        "position": [
+            45.89121790929269,
+            11.032655239105226
+        ]
+    },
+    {
+        "name": "20.22 Lizzanella",
+        "address": "piazza S. Antonio",
+        "id": "20.22 Lizzanella - Trento",
+        "bikes": 4,
+        "slots": 2,
+        "totalSlots": 6,
+        "position": [
+            45.87547789137215,
+            11.032939553260803
+        ]
+    },
+    {
+        "name": "20.23 Cartiera",
+        "address": "via Cartiera / uffici comunali",
+        "id": "20.23 Cartiera - Trento",
+        "bikes": 2,
+        "slots": 6,
+        "totalSlots": 8,
+        "position": [
+            45.88633393965923,
+            11.055679321289064
+        ]
+    },
+    {
+        "name": "20.24 Ex Marangoni",
+        "address": "via Benacense",
+        "id": "20.24 Ex Marangoni - Trento",
+        "bikes": 0,
+        "slots": 0,
+        "totalSlots": 0,
+        "position": [
+            45.87380650063865,
+            11.029851321006003
+        ]
+    },
+    {
+        "name": "21.01 Volano",
+        "address": "via Santa Maria",
+        "id": "21.01 Volano - Trento",
+        "bikes": 2,
+        "slots": 10,
+        "totalSlots": 12,
+        "position": [
+            45.91706816204346,
+            11.06046438217163
+        ]
+    },
+    {
+        "name": "22.01 Pomarolo",
+        "address": "via Maggiore Adami",
+        "id": "22.01 Pomarolo - Trento",
+        "bikes": 2,
+        "slots": 7,
+        "totalSlots": 9,
+        "position": [
+            45.928072795830836,
+            11.042761802673342
+        ]
+    },
+    {
+        "name": "23.01 Villa Lagarina",
+        "address": "piazzetta Scrinzi",
+        "id": "23.01 Villa Lagarina - Trento",
+        "bikes": 4,
+        "slots": 8,
+        "totalSlots": 12,
+        "position": [
+            45.91590002767766,
+            11.03129804134369
+        ]
+    },
+    {
+        "name": "23.02 Piazzo",
+        "address": "via Giardini / via Oriola",
+        "id": "23.02 Piazzo - Trento",
+        "bikes": 0,
+        "slots": 5,
+        "totalSlots": 5,
+        "position": [
+            45.92213974462065,
+            11.03357791900635
+        ]
+    },
+    {
+        "name": "24.01 Nogaredo",
+        "address": "via delle Zuccate / via San Biagio",
+        "id": "24.01 Nogaredo - Trento",
+        "bikes": 5,
+        "slots": 7,
+        "totalSlots": 12,
+        "position": [
+            45.911891609710565,
+            11.024941205978395
+        ]
+    },
+    {
+        "name": "25.01 Isera",
+        "address": "piazza San Vincenzo",
+        "id": "25.01 Isera - Trento",
+        "bikes": 0,
+        "slots": 5,
+        "totalSlots": 5,
+        "position": [
+            45.88531079070144,
+            11.009652614593506
+        ]
+    },
+    {
+        "name": "25.02 Cornalè",
+        "address": "via Cornalè",
+        "id": "25.02 Cornalè - Trento",
+        "bikes": 0,
+        "slots": 5,
+        "totalSlots": 5,
+        "position": [
+            45.88170348017418,
+            11.010982990264894
+        ]
+    },
+    {
+        "name": "26.01 Mori",
+        "address": "piazza Cal di Ponte",
+        "id": "26.01 Mori - Trento",
+        "bikes": 4,
+        "slots": 8,
+        "totalSlots": 12,
+        "position": [
+            45.852059400109574,
+            10.97732126712799
+        ]
+    }
+]

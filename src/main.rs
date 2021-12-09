@@ -5,6 +5,7 @@ use gtfs_structures::Gtfs;
 use kdi::enums::KdiFareEnum;
 use log::{debug, info, LevelFilter};
 use serde_json::json;
+use serde_xml_rs::{self};
 use std::error::Error;
 use std::fs::{self, File};
 use strum::VariantNames;
@@ -15,9 +16,10 @@ use crate::kdi::enums::{
     KdiCurrencyEnum, KdiDirectionEnum, KdiExceptionEnum, KdiParkingStopEnum, KdiPaymentEnum,
     KdiSupportedEnum, KdiTransportEnum,
 };
+use crate::kdi::kml::Kml;
 use crate::kdi::structs::{
-    KdiAgency, KdiCalendar, KdiCalendarException, KdiFare, KdiFareRule, KdiLocation, KdiRoute,
-    KdiTrip, KdiPublicTransportStop, KdiStopTime,
+    KdiAgency, KdiCalendar, KdiCalendarException, KdiFare, KdiFareRule, KdiLocation,
+    KdiPublicTransportStop, KdiRoute, KdiStopTime, KdiTrip,
 };
 
 const ALIGNEMENT_DIR: &str = "./alignment";
@@ -25,6 +27,10 @@ const EXTRAURBAN_FILE: &str = "./data/extraurban.zip";
 const URBAN_FILE: &str = "./data/urban.zip";
 const EXTRAURBAN_FARE_FILE: &str = "./data/extraurban_fare.zip";
 const URBAN_FARE_FILE: &str = "./data/urban_fare.zip";
+const CAR_SHARING_FILE: &str = "./data/car_sharing.kml";
+const CENTRO_IN_BICI_FILE: &str = "./data/centro_in_bici.kml";
+const PARCHEGGIO_PROTETTO_BICICLETTE: &str = "./data/parcheggio_protetto_biciclette.kml";
+const TAXI_FILE: &str = "./data/taxi.kml";
 
 fn main() -> Result<(), Box<dyn Error>> {
     // --- LOGGER
@@ -32,6 +38,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     Builder::new()
         .target(Target::Stdout)
         .filter_level(LevelFilter::Debug)
+        .filter_module("serde_xml_rs::de", LevelFilter::Off)
         .init();
 
     // --- DIRECTORY TREE
@@ -52,6 +59,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut extraurban_fare = ZipArchive::new(File::open(&EXTRAURBAN_FARE_FILE)?)?;
     info!("Reading `{}`", URBAN_FARE_FILE);
     let mut urban_fare = ZipArchive::new(File::open(&URBAN_FARE_FILE)?)?;
+    // - Read `KML` files
+    info!("Reading `{}`", CAR_SHARING_FILE);
+    let car_sharing: Kml = serde_xml_rs::from_str(&fs::read_to_string(CAR_SHARING_FILE)?)?;
+    info!("Reading `{}`", CENTRO_IN_BICI_FILE);
+    let centro_in_bici: Kml = serde_xml_rs::from_str(&fs::read_to_string(CENTRO_IN_BICI_FILE)?)?;
+    info!("Reading `{}`", PARCHEGGIO_PROTETTO_BICICLETTE);
+    let parcheggio_protetto_biciclette: Kml =
+        serde_xml_rs::from_str(&fs::read_to_string(PARCHEGGIO_PROTETTO_BICICLETTE)?)?;
+    info!("Reading `{}`", TAXI_FILE);
+    let taxi: Kml = serde_xml_rs::from_str(&fs::read_to_string(TAXI_FILE)?)?;
 
     // --- COMMON
     // - Location
@@ -69,6 +86,18 @@ fn main() -> Result<(), Box<dyn Error>> {
     debug!("Aligning urban `Common::Location::PublicTransportStop`");
     align::align_location_public_transport_stop(&gtfs_urban, &mut locations, TT::Urban)?;
     info!("Writing `locations.json` file");
+    // CarSharing
+    info!("Aligning `Common::Location::CarSharing`");
+    align::align_location_car_sharing(&car_sharing, &mut locations)?;
+    // CentroInBici
+    info!("Aligning `Common::Location::CentroInBici`");
+    align::align_location_centro_in_bici(&centro_in_bici, &mut locations)?;
+    // ParcheggioProtettoBiciclette
+    info!("Aligning `Common::Location::ParcheggioProtettoBiciclette`");
+    align::align_location_parcheggio_protetto_biciclette(&parcheggio_protetto_biciclette, &mut locations)?;
+    // Taxi
+    info!("Aligning `Common::Location::Taxi`");
+    align::align_location_taxi(&taxi, &mut locations)?;
     fs::write(
         format!("{}/locations.json", ALIGNEMENT_DIR),
         serde_json::to_string(&locations)?,
@@ -151,7 +180,11 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut public_transport_stops: Vec<KdiPublicTransportStop> = Vec::new();
     info!("Aligning `Core::PublicTransportStop`");
     debug!("Aligning extraurban `Core::PublicTransportStop`");
-    align::align_public_transport_stop(&gtfs_extraurban, &mut public_transport_stops, TT::ExtraUrban)?;
+    align::align_public_transport_stop(
+        &gtfs_extraurban,
+        &mut public_transport_stops,
+        TT::ExtraUrban,
+    )?;
     debug!("Aligning urban `Core::PublicTransportStop`");
     align::align_public_transport_stop(&gtfs_urban, &mut public_transport_stops, TT::Urban)?;
     info!("Writing `public_transport_stops.json` file");
@@ -246,7 +279,6 @@ fn main() -> Result<(), Box<dyn Error>> {
         format!("{}/transport_enum.json", ALIGNEMENT_DIR),
         serde_json::to_string(&json!({ "value": KdiTransportEnum::VARIANTS }))?,
     )?;
-
     /*
     let mut a: HashMap<&String, &KdiTransportEnum> = HashMap::new();
 

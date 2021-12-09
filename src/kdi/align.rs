@@ -10,6 +10,7 @@ use zip::ZipArchive;
 use super::enums::{
     KdiDirectionEnum, KdiExceptionEnum, KdiFareEnum, KdiSupportedEnum, KdiTransportEnum,
 };
+use super::kml::Kml;
 use super::structs::{
     KdiCalendar, KdiCalendarException, KdiFare, KdiFareRule, KdiLocation, KdiPublicTransportStop,
     KdiRoute, KdiStopTime, KdiTrip,
@@ -91,6 +92,120 @@ pub fn align_location_public_transport_stop(
             name: stop.name.clone(),
             latitude: stop.latitude.unwrap(),
             longitude: stop.longitude.unwrap(),
+        });
+    }
+
+    locations.sort_by(|a, b| a.id.cmp(&b.id));
+
+    Ok(())
+}
+
+pub fn align_location_car_sharing(
+    car_sharing: &Kml,
+    locations: &mut Vec<KdiLocation>,
+) -> Result<(), Box<dyn Error>> {
+    for (i, placemark) in car_sharing.document.folder.placemarks.iter().enumerate() {
+        let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
+        let coordinate: Vec<_> = placemark
+            .point
+            .coordinates
+            .split(",")
+            .map(|c| c.parse::<f64>().unwrap())
+            .collect();
+        assert!(coordinate.len() == 2);
+
+        locations.push(KdiLocation {
+            id: format!("CS_{}", i),
+            name: datas.find(|d| d.name == "nomepos").unwrap().value.clone(),
+            latitude: coordinate[1],
+            longitude: coordinate[0],
+        });
+    }
+
+    locations.sort_by(|a, b| a.id.cmp(&b.id));
+
+    Ok(())
+}
+
+pub fn align_location_centro_in_bici(
+    centro_in_bici: &Kml,
+    locations: &mut Vec<KdiLocation>,
+) -> Result<(), Box<dyn Error>> {
+    for (i, placemark) in centro_in_bici.document.folder.placemarks.iter().enumerate() {
+        let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
+        let coordinate: Vec<_> = placemark
+            .point
+            .coordinates
+            .split(",")
+            .map(|c| c.parse::<f64>().unwrap())
+            .collect();
+        assert!(coordinate.len() == 2);
+
+        locations.push(KdiLocation {
+            id: format!("CIB_{}", i),
+            name: datas.find(|d| d.name == "desc").unwrap().value.clone(),
+            latitude: coordinate[1],
+            longitude: coordinate[0],
+        });
+    }
+
+    locations.sort_by(|a, b| a.id.cmp(&b.id));
+
+    Ok(())
+}
+
+pub fn align_location_parcheggio_protetto_biciclette(
+    parcheggio_protetto_biciclette: &Kml,
+    locations: &mut Vec<KdiLocation>,
+) -> Result<(), Box<dyn Error>> {
+    for (i, placemark) in parcheggio_protetto_biciclette
+        .document
+        .folder
+        .placemarks
+        .iter()
+        .enumerate()
+    {
+        let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
+        let coordinate: Vec<_> = placemark
+            .point
+            .coordinates
+            .split(",")
+            .map(|c| c.parse::<f64>().unwrap())
+            .collect();
+        assert!(coordinate.len() == 2);
+
+        locations.push(KdiLocation {
+            id: format!("PPB_{}", i),
+            name: datas.find(|d| d.name == "park").unwrap().value.clone(),
+            latitude: coordinate[1],
+            longitude: coordinate[0],
+        });
+    }
+
+    locations.sort_by(|a, b| a.id.cmp(&b.id));
+
+    Ok(())
+}
+
+pub fn align_location_taxi(
+    taxi: &Kml,
+    locations: &mut Vec<KdiLocation>,
+) -> Result<(), Box<dyn Error>> {
+    for (i, placemark) in taxi.document.folder.placemarks.iter().enumerate() {
+        let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
+        let coordinate: Vec<_> = placemark
+            .point
+            .coordinates
+            .split(",")
+            .map(|c| c.parse::<f64>().unwrap())
+            .collect();
+        assert!(coordinate.len() == 2);
+
+        locations.push(KdiLocation {
+            id: format!("TX_{}", i),
+            name: datas.find(|d| d.name == "nome").unwrap().value.clone(),
+            latitude: coordinate[1],
+            longitude: coordinate[0],
         });
     }
 
