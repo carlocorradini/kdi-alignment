@@ -7,13 +7,17 @@ use std::io::Read;
 use std::{fmt::Display, fs::File};
 use zip::ZipArchive;
 
+use crate::kdi::structs::KdiBikeSharingStop;
+
 use super::enums::{
-    KdiDirectionEnum, KdiExceptionEnum, KdiFareEnum, KdiSupportedEnum, KdiTransportEnum, KdiParkingStopEnum,
+    KdiDirectionEnum, KdiExceptionEnum, KdiFareEnum, KdiParkingStopEnum, KdiSupportedEnum,
+    KdiTransportEnum,
 };
+use super::json::BikeSharing;
 use super::kml::Kml;
 use super::structs::{
-    KdiCalendar, KdiCalendarException, KdiFare, KdiFareRule, KdiLocation, KdiPublicTransportStop,
-    KdiRoute, KdiStopTime, KdiTrip, KdiParkingStop,
+    KdiCalendar, KdiCalendarException, KdiFare, KdiFareRule, KdiLocation, KdiParkingStop,
+    KdiPublicTransportStop, KdiRoute, KdiStopTime, KdiTrip,
 };
 
 #[derive(PartialEq)]
@@ -214,6 +218,23 @@ pub fn align_location_taxi(
     Ok(())
 }
 
+pub fn align_location_bike_sharing(
+    bike_sharing: &[BikeSharing],
+    locations: &mut Vec<KdiLocation>,
+) -> Result<(), Box<dyn Error>> {
+    for bs in bike_sharing {
+        assert!(bs.position.len() == 2);
+        locations.push(KdiLocation {
+            id: format!("BS_{}", bs.id),
+            name: bs.name.clone(),
+            latitude: bs.position[0],
+            longitude: bs.position[1],
+        });
+    }
+
+    Ok(())
+}
+
 pub fn align_calendar_exception(
     gtfs: &Gtfs,
     calendar_exceptions: &mut Vec<KdiCalendarException>,
@@ -383,7 +404,11 @@ pub fn align_parking_stop_centro_in_bici(
             location: format!("CIB_{}", i),
             ptype: KdiParkingStopEnum::BikeSharing,
             address: datas.find(|d| d.name == "desc").unwrap().value.clone(),
-            total_slots: datas.find(|d| d.name == "cicloposteggi").unwrap().value.parse()?,
+            total_slots: datas
+                .find(|d| d.name == "cicloposteggi")
+                .unwrap()
+                .value
+                .parse()?,
         });
     }
 
@@ -396,7 +421,13 @@ pub fn align_parking_stop_parcheggio_protetto_biciclette(
     parcheggio_protetto_biciclette: &Kml,
     parking_stops: &mut Vec<KdiParkingStop>,
 ) -> Result<(), Box<dyn Error>> {
-    for (i, placemark) in parcheggio_protetto_biciclette.document.folder.placemarks.iter().enumerate() {
+    for (i, placemark) in parcheggio_protetto_biciclette
+        .document
+        .folder
+        .placemarks
+        .iter()
+        .enumerate()
+    {
         let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
 
         parking_stops.push(KdiParkingStop {
@@ -426,7 +457,7 @@ pub fn align_parking_stop_taxi(
             total_slots: 1,
         });
     }
-    
+
     parking_stops.sort_by(|a, b| a.location.cmp(&b.location));
 
     Ok(())
@@ -505,6 +536,25 @@ pub fn align_fare(
     }
 
     fares.sort_by(|a, b| a.id.cmp(&b.id));
+
+    Ok(())
+}
+
+pub fn align_bike_sharing_stop(
+    bike_sharing: &[BikeSharing],
+    bike_sharing_stops: &mut Vec<KdiBikeSharingStop>,
+) -> Result<(), Box<dyn Error>> {
+    for bs in bike_sharing {
+        assert!(bs.position.len() == 2);
+        bike_sharing_stops.push(KdiBikeSharingStop {
+            location: format!("BS_{}", bs.id),
+            ptype: KdiParkingStopEnum::BikeSharing,
+            address: bs.address.clone(),
+            total_slots: bs.total_slots,
+            free_slots: bs.slots,
+            bikes: bs.bikes,
+        });
+    }
 
     Ok(())
 }

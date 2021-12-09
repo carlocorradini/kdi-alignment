@@ -16,10 +16,11 @@ use crate::kdi::enums::{
     KdiCurrencyEnum, KdiDirectionEnum, KdiExceptionEnum, KdiParkingStopEnum, KdiPaymentEnum,
     KdiSupportedEnum, KdiTransportEnum,
 };
+use crate::kdi::json::BikeSharing;
 use crate::kdi::kml::Kml;
 use crate::kdi::structs::{
-    KdiAgency, KdiCalendar, KdiCalendarException, KdiFare, KdiFareRule, KdiLocation,
-    KdiPublicTransportStop, KdiRoute, KdiStopTime, KdiTrip, KdiParkingStop,
+    KdiAgency, KdiBikeSharingStop, KdiCalendar, KdiCalendarException, KdiFare, KdiFareRule,
+    KdiLocation, KdiParkingStop, KdiPublicTransportStop, KdiRoute, KdiStopTime, KdiTrip,
 };
 
 const ALIGNEMENT_DIR: &str = "./alignment";
@@ -31,6 +32,12 @@ const CAR_SHARING_FILE: &str = "./data/car_sharing.kml";
 const CENTRO_IN_BICI_FILE: &str = "./data/centro_in_bici.kml";
 const PARCHEGGIO_PROTETTO_BICICLETTE: &str = "./data/parcheggio_protetto_biciclette.kml";
 const TAXI_FILE: &str = "./data/taxi.kml";
+const BIKESHARING_LAVIS: &str = "./data/bikesharing_lavis.json";
+const BIKESHARING_MEZZOCORONA: &str = "./data/bikesharing_mezzocorona.json";
+const BIKESHARING_MEZZOLOMBARDO: &str = "./data/bikesharing_mezzolombardo.json";
+const BIKESHARING_ROVERETO: &str = "./data/bikesharing_rovereto.json";
+const BIKESHARING_SAN_MICHELE_ALLADIGE: &str = "./data/bikesharing_sanmichelealladige.json";
+const BIKESHARING_TRENTO: &str = "./data/bikesharing_trento.json";
 
 fn main() -> Result<(), Box<dyn Error>> {
     // --- LOGGER
@@ -69,6 +76,33 @@ fn main() -> Result<(), Box<dyn Error>> {
         serde_xml_rs::from_str(&fs::read_to_string(PARCHEGGIO_PROTETTO_BICICLETTE)?)?;
     info!("Reading `{}`", TAXI_FILE);
     let taxi: Kml = serde_xml_rs::from_str(&fs::read_to_string(TAXI_FILE)?)?;
+    // - Read `BIKESHARING` files
+    let mut bike_sharing: Vec<BikeSharing> = Vec::new();
+    info!("Reading `{}`", BIKESHARING_LAVIS);
+    bike_sharing.append(&mut serde_json::from_str(&fs::read_to_string(
+        BIKESHARING_LAVIS,
+    )?)?);
+    info!("Reading `{}`", BIKESHARING_MEZZOCORONA);
+    bike_sharing.append(&mut serde_json::from_str(&fs::read_to_string(
+        BIKESHARING_MEZZOCORONA,
+    )?)?);
+    info!("Reading `{}`", BIKESHARING_MEZZOLOMBARDO);
+    bike_sharing.append(&mut serde_json::from_str(&fs::read_to_string(
+        BIKESHARING_MEZZOLOMBARDO,
+    )?)?);
+    info!("Reading `{}`", BIKESHARING_ROVERETO);
+    bike_sharing.append(&mut serde_json::from_str(&fs::read_to_string(
+        BIKESHARING_ROVERETO,
+    )?)?);
+    info!("Reading `{}`", BIKESHARING_SAN_MICHELE_ALLADIGE);
+    bike_sharing.append(&mut serde_json::from_str(&fs::read_to_string(
+        BIKESHARING_SAN_MICHELE_ALLADIGE,
+    )?)?);
+    info!("Reading `{}`", BIKESHARING_TRENTO);
+    bike_sharing.append(&mut serde_json::from_str(&fs::read_to_string(
+        BIKESHARING_TRENTO,
+    )?)?);
+    let bike_sharing = bike_sharing;
 
     // --- COMMON
     // - Location
@@ -99,6 +133,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Taxi
     debug!("Aligning `Common::Location::Taxi`");
     align::align_location_taxi(&taxi, &mut locations)?;
+    // BikeSharing
+    debug!("Aligning `Common::Location::Bikesharing`");
+    align::align_location_bike_sharing(&bike_sharing, &mut locations)?;
     info!("Writing `locations.json` file");
     fs::write(
         format!("{}/locations.json", ALIGNEMENT_DIR),
@@ -198,7 +235,14 @@ fn main() -> Result<(), Box<dyn Error>> {
         serde_json::to_string(&fares)?,
     )?;
     // - BikeSharingStop
-    // TODO
+    let mut bike_sharing_stops: Vec<KdiBikeSharingStop> = Vec::new();
+    info!("Aligning `Core::BikeSharingStop`");
+    align::align_bike_sharing_stop(&bike_sharing, &mut bike_sharing_stops)?;
+    info!("Writing `bike_sharing_stops.json` file");
+    fs::write(
+        format!("{}/bike_sharing_stops.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&bike_sharing_stops)?,
+    )?;
     // - PublicTransportStop
     let mut public_transport_stops: Vec<KdiPublicTransportStop> = Vec::new();
     info!("Aligning `Core::PublicTransportStop`");
