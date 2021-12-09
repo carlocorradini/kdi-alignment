@@ -104,7 +104,7 @@ impl From<Exception> for KdiExceptionEnum {
 #[derive(Debug, Serialize, EnumString, EnumVariantNames, PartialEq, Eq, Clone, Hash)]
 #[serde(rename(serialize = "TransportEnum"))]
 pub enum KdiTransportEnum {
-    Rail,
+    Train,
     Bus,
     CableCar,
 }
@@ -112,7 +112,7 @@ pub enum KdiTransportEnum {
 impl From<RouteType> for KdiTransportEnum {
     fn from(route_type: RouteType) -> Self {
         match route_type {
-            RouteType::Rail => KdiTransportEnum::Rail,
+            RouteType::Rail => KdiTransportEnum::Train,
             RouteType::Bus => KdiTransportEnum::Bus,
             RouteType::CableCar => KdiTransportEnum::CableCar,
             _ => panic!("Unknown route type {:?}", route_type),

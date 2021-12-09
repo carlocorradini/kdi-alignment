@@ -323,7 +323,7 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .get(&stop.location)
                 .unwrap()
                 .iter()
-                .map(|t| t.clone()),
+                .cloned()
         );
     }
     info!("Writing `public_transport_stops.json` file");

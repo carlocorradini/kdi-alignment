@@ -122,7 +122,7 @@ pub struct KdiPublicTransportStop {
     pub weelchair: KdiSupportedEnum,
 }
 
-fn ptype_serialization<S>(t: &Vec<KdiTransportEnum>, s: S) -> Result<S::Ok, S::Error>
+fn ptype_serialization<S>(t: &[KdiTransportEnum], s: S) -> Result<S::Ok, S::Error>
 where
     S: Serializer,
 {
