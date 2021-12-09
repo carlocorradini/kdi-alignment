@@ -126,7 +126,8 @@ fn ptype_serialization<S>(t: &Vec<KdiTransportEnum>, s: S) -> Result<S::Ok, S::E
 where
     S: Serializer,
 {
-    s.serialize_str(&format!("{:?}", t.iter().map(|transport| format!("{:?}", transport)).collect::<Vec<String>>()))
+    let string = t.iter().map(|x| format!("{:?},", x)).collect::<String>();
+    s.serialize_str(string.trim_end_matches(','))
 }
 
 #[derive(Debug, Serialize)]
