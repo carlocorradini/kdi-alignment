@@ -89,19 +89,24 @@ pub struct KdiFare {
 
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "ParkingStop"))]
-pub struct KdiParkingStop<'a> {
-    pub location: &'a str,
+pub struct KdiParkingStop {
+    pub location: String,
     #[serde(rename(serialize = "type"))]
     pub ptype: KdiParkingStopEnum,
-    pub address: &'a str,
+    pub address: String,
     #[serde(rename(serialize = "totalSlots"))]
     pub total_slots: usize,
 }
 
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "BikeSharingStop"))]
-pub struct KdiBikeSharingStop<'a> {
-    pub stop: &'a str,
+pub struct KdiBikeSharingStop {
+    pub location: String,
+    #[serde(rename(serialize = "type"))]
+    pub ptype: KdiParkingStopEnum,
+    pub address: String,
+    #[serde(rename(serialize = "totalSlots"))]
+    pub total_slots: usize,
     #[serde(rename(serialize = "freeSlots"))]
     pub free_slots: usize,
     pub bikes: usize,

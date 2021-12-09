@@ -19,7 +19,7 @@ use crate::kdi::enums::{
 use crate::kdi::kml::Kml;
 use crate::kdi::structs::{
     KdiAgency, KdiCalendar, KdiCalendarException, KdiFare, KdiFareRule, KdiLocation,
-    KdiPublicTransportStop, KdiRoute, KdiStopTime, KdiTrip,
+    KdiPublicTransportStop, KdiRoute, KdiStopTime, KdiTrip, KdiParkingStop,
 };
 
 const ALIGNEMENT_DIR: &str = "./alignment";
@@ -72,32 +72,34 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     // --- COMMON
     // - Location
+    info!("Aligning `Common::Location`");
     let mut locations: Vec<KdiLocation> = Vec::new();
     // Zone
-    info!("Aligning `Common::Location::Zone`");
     debug!("Aligning extraurban `Common::Location::Zone`");
     align::align_location_zone(&mut extraurban_fare, &mut locations, TT::ExtraUrban)?;
     debug!("Aligning urban `Common::Location::Zone`");
     align::align_location_zone(&mut urban_fare, &mut locations, TT::Urban)?;
     // PublicTransportStop
-    info!("Aligning `Common::Location::PublicTransportStop`");
     debug!("Aligning extraurban `Common::Location::PublicTransportStop`");
     align::align_location_public_transport_stop(&gtfs_extraurban, &mut locations, TT::ExtraUrban)?;
     debug!("Aligning urban `Common::Location::PublicTransportStop`");
     align::align_location_public_transport_stop(&gtfs_urban, &mut locations, TT::Urban)?;
-    info!("Writing `locations.json` file");
     // CarSharing
-    info!("Aligning `Common::Location::CarSharing`");
+    debug!("Aligning `Common::Location::CarSharing`");
     align::align_location_car_sharing(&car_sharing, &mut locations)?;
     // CentroInBici
-    info!("Aligning `Common::Location::CentroInBici`");
+    debug!("Aligning `Common::Location::CentroInBici`");
     align::align_location_centro_in_bici(&centro_in_bici, &mut locations)?;
     // ParcheggioProtettoBiciclette
-    info!("Aligning `Common::Location::ParcheggioProtettoBiciclette`");
-    align::align_location_parcheggio_protetto_biciclette(&parcheggio_protetto_biciclette, &mut locations)?;
+    debug!("Aligning `Common::Location::ParcheggioProtettoBiciclette`");
+    align::align_location_parcheggio_protetto_biciclette(
+        &parcheggio_protetto_biciclette,
+        &mut locations,
+    )?;
     // Taxi
-    info!("Aligning `Common::Location::Taxi`");
+    debug!("Aligning `Common::Location::Taxi`");
     align::align_location_taxi(&taxi, &mut locations)?;
+    info!("Writing `locations.json` file");
     fs::write(
         format!("{}/locations.json", ALIGNEMENT_DIR),
         serde_json::to_string(&locations)?,
@@ -161,7 +163,28 @@ fn main() -> Result<(), Box<dyn Error>> {
         serde_json::to_string(&fare_rules)?,
     )?;
     // - ParkingStop
-    // TODO
+    info!("Aligning `Core::ParkingStop`");
+    let mut parking_stops: Vec<KdiParkingStop> = Vec::new();
+    // CarSharing
+    debug!("Aligning `Core::ParkingStop::CarSharing`");
+    align::align_parking_stop_car_sharing(&car_sharing, &mut parking_stops)?;
+    // CentroInBici
+    debug!("Aligning `Core::ParkingStop::CentroInBici`");
+    align::align_parking_stop_centro_in_bici(&centro_in_bici, &mut parking_stops)?;
+    // ParcheggioProtettoBiciclette
+    debug!("Aligning `Core::ParkingStop::ParcheggioProtettoBiciclette`");
+    align::align_parking_stop_parcheggio_protetto_biciclette(
+        &parcheggio_protetto_biciclette,
+        &mut parking_stops,
+    )?;
+    // Taxi
+    debug!("Aligning `Core::ParkingStop::Taxi`");
+    align::align_parking_stop_taxi(&taxi, &mut parking_stops)?;
+    info!("Writing `parking_stops.json` file");
+    fs::write(
+        format!("{}/parking_stops.json", ALIGNEMENT_DIR),
+        serde_json::to_string(&parking_stops)?,
+    )?;
     // - Fare
     let mut fares: Vec<KdiFare> = Vec::new();
     info!("Aligning `Core::Fare`");

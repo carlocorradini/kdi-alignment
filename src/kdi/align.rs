@@ -8,12 +8,12 @@ use std::{fmt::Display, fs::File};
 use zip::ZipArchive;
 
 use super::enums::{
-    KdiDirectionEnum, KdiExceptionEnum, KdiFareEnum, KdiSupportedEnum, KdiTransportEnum,
+    KdiDirectionEnum, KdiExceptionEnum, KdiFareEnum, KdiSupportedEnum, KdiTransportEnum, KdiParkingStopEnum,
 };
 use super::kml::Kml;
 use super::structs::{
     KdiCalendar, KdiCalendarException, KdiFare, KdiFareRule, KdiLocation, KdiPublicTransportStop,
-    KdiRoute, KdiStopTime, KdiTrip,
+    KdiRoute, KdiStopTime, KdiTrip, KdiParkingStop,
 };
 
 #[derive(PartialEq)]
@@ -348,6 +348,86 @@ pub fn align_fare_rule(
     }
 
     fare_rules.sort_by(|a, b| a.fare.cmp(&b.fare));
+
+    Ok(())
+}
+
+pub fn align_parking_stop_car_sharing(
+    car_sharing: &Kml,
+    parking_stops: &mut Vec<KdiParkingStop>,
+) -> Result<(), Box<dyn Error>> {
+    for (i, placemark) in car_sharing.document.folder.placemarks.iter().enumerate() {
+        let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
+
+        parking_stops.push(KdiParkingStop {
+            location: format!("CS_{}", i),
+            ptype: KdiParkingStopEnum::CarSharing,
+            address: datas.find(|d| d.name == "via").unwrap().value.clone(),
+            total_slots: datas.find(|d| d.name == "auto").unwrap().value.parse()?,
+        });
+    }
+
+    parking_stops.sort_by(|a, b| a.location.cmp(&b.location));
+
+    Ok(())
+}
+
+pub fn align_parking_stop_centro_in_bici(
+    centro_in_bici: &Kml,
+    parking_stops: &mut Vec<KdiParkingStop>,
+) -> Result<(), Box<dyn Error>> {
+    for (i, placemark) in centro_in_bici.document.folder.placemarks.iter().enumerate() {
+        let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
+
+        parking_stops.push(KdiParkingStop {
+            location: format!("CIB_{}", i),
+            ptype: KdiParkingStopEnum::BikeSharing,
+            address: datas.find(|d| d.name == "desc").unwrap().value.clone(),
+            total_slots: datas.find(|d| d.name == "cicloposteggi").unwrap().value.parse()?,
+        });
+    }
+
+    parking_stops.sort_by(|a, b| a.location.cmp(&b.location));
+
+    Ok(())
+}
+
+pub fn align_parking_stop_parcheggio_protetto_biciclette(
+    parcheggio_protetto_biciclette: &Kml,
+    parking_stops: &mut Vec<KdiParkingStop>,
+) -> Result<(), Box<dyn Error>> {
+    for (i, placemark) in parcheggio_protetto_biciclette.document.folder.placemarks.iter().enumerate() {
+        let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
+
+        parking_stops.push(KdiParkingStop {
+            location: format!("PPB_{}", i),
+            ptype: KdiParkingStopEnum::BikeParking,
+            address: datas.find(|d| d.name == "via").unwrap().value.clone(),
+            total_slots: datas.find(|d| d.name == "posti").unwrap().value.parse()?,
+        });
+    }
+
+    parking_stops.sort_by(|a, b| a.location.cmp(&b.location));
+
+    Ok(())
+}
+
+pub fn align_parking_stop_taxi(
+    taxi: &Kml,
+    parking_stops: &mut Vec<KdiParkingStop>,
+) -> Result<(), Box<dyn Error>> {
+    for (i, placemark) in taxi.document.folder.placemarks.iter().enumerate() {
+        let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
+
+        parking_stops.push(KdiParkingStop {
+            location: format!("TX_{}", i),
+            ptype: KdiParkingStopEnum::Taxi,
+            address: datas.find(|d| d.name == "indirizzo").unwrap().value.clone(),
+            total_slots: 1,
+        });
+    }
+    
+    parking_stops.sort_by(|a, b| a.location.cmp(&b.location));
 
     Ok(())
 }
