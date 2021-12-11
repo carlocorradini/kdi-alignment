@@ -117,7 +117,7 @@ pub struct KdiBikeSharingStop {
 pub struct KdiPublicTransportStop {
     pub location: String,
     pub zone: Option<String>,
-    #[serde(serialize_with = "ptype_serialization")]
+    #[serde(serialize_with = "ptype_serialization", rename(serialize="type"))]
     pub ptype: Vec<KdiTransportEnum>,
     pub weelchair: KdiSupportedEnum,
 }
