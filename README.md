@@ -9,7 +9,7 @@
 |  Name  |  Surname  |     Username     |    MAT     |
 | :----: | :-------: | :--------------: | :--------: |
 | Carlo  | Corradini | `carlocorradini` | **223811** |
-| Xuanli |    Li     |   `xuanli666`    |            |
+| Xuanli |    Li     |   `xuanli666`    | **220489** |
 
 ## Rust
 
