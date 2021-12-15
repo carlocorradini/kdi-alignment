@@ -39,6 +39,7 @@ const BIKESHARING_MEZZOLOMBARDO: &str = "./data/bikesharing_mezzolombardo.json";
 const BIKESHARING_ROVERETO: &str = "./data/bikesharing_rovereto.json";
 const BIKESHARING_SAN_MICHELE_ALLADIGE: &str = "./data/bikesharing_sanmichelealladige.json";
 const BIKESHARING_TRENTO: &str = "./data/bikesharing_trento.json";
+const FARE_RULES_CHUNK_SIZE: usize = 100_000;
 
 fn main() -> Result<(), Box<dyn Error>> {
     // --- LOGGER
@@ -200,6 +201,15 @@ fn main() -> Result<(), Box<dyn Error>> {
         format!("{}/fare_rules.json", ALIGNEMENT_DIR),
         serde_json::to_string(&fare_rules)?,
     )?;
+    info!("Writing `fare_rules.json` chuncks file");
+    for (chunk_index, chunk) in fare_rules.chunks(FARE_RULES_CHUNK_SIZE).enumerate() {
+        debug!("Writing `fare_rules_{}.json` file", chunk_index);
+        fs::write(
+            format!("{}/fare_rules_{}.json", ALIGNEMENT_DIR, chunk_index),
+            serde_json::to_string(&chunk)?,
+        )?;
+    }
+
     // - ParkingStop
     info!("Aligning `Core::ParkingStop`");
     let mut parking_stops: Vec<KdiParkingStop> = Vec::new();
