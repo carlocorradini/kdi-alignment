@@ -240,9 +240,12 @@ pub fn align_calendar_exception(
     calendar_exceptions: &mut Vec<KdiCalendarException>,
     tt: TT,
 ) -> Result<(), Box<dyn Error>> {
+    let mut index: usize = calendar_exceptions.len();
+
     for calendar_date in gtfs.calendar_dates.values() {
         for cd in calendar_date {
             calendar_exceptions.push(KdiCalendarException {
+                id: index.to_string(),
                 calendar: to_correct_id(&tt, &cd.service_id),
                 date: cd
                     .date
@@ -251,14 +254,12 @@ pub fn align_calendar_exception(
                     .to_string(),
                 exception: KdiExceptionEnum::from(cd.exception_type),
             });
+
+            index += 1;
         }
     }
 
-    calendar_exceptions.sort_by(|a, b| {
-        a.calendar
-            .cmp(&b.calendar)
-            .then_with(|| a.date.cmp(&b.date))
-    });
+    calendar_exceptions.sort_by(|a, b| a.id.cmp(&b.id));
 
     Ok(())
 }
@@ -336,6 +337,12 @@ pub fn align_fare_rule(
     {
         let fare_rule: KdiFareRule = result?;
         fare_rules.push(KdiFareRule {
+            id: format!(
+                "{}_{}_{}",
+                to_correct_id(&tt, &fare_rule.fare).to_string(),
+                format!("ZONE_{}", to_correct_id(&tt, &fare_rule.origin)),
+                format!("ZONE_{}", to_correct_id(&tt, &fare_rule.destination))
+            ),
             fare: to_correct_id(&tt, &fare_rule.fare).to_string(),
             origin: format!("ZONE_{}", to_correct_id(&tt, &fare_rule.origin)),
             destination: format!("ZONE_{}", to_correct_id(&tt, &fare_rule.destination)),
@@ -349,6 +356,12 @@ pub fn align_fare_rule(
     {
         let fare_rule: KdiFareRule = result?;
         fare_rules.push(KdiFareRule {
+            id: format!(
+                "{}_{}_{}",
+                to_correct_id(&tt, &fare_rule.fare).to_string(),
+                format!("ZONE_{}", to_correct_id(&tt, &fare_rule.origin)),
+                format!("ZONE_{}", to_correct_id(&tt, &fare_rule.destination))
+            ),
             fare: to_correct_id(&tt, &fare_rule.fare).to_string(),
             origin: format!("ZONE_{}", to_correct_id(&tt, &fare_rule.origin)),
             destination: format!("ZONE_{}", to_correct_id(&tt, &fare_rule.destination)),
@@ -362,6 +375,12 @@ pub fn align_fare_rule(
     {
         let fare_rule: KdiFareRule = result?;
         fare_rules.push(KdiFareRule {
+            id: format!(
+                "{}_{}_{}",
+                to_correct_id(&tt, &fare_rule.fare).to_string(),
+                format!("ZONE_{}", to_correct_id(&tt, &fare_rule.origin)),
+                format!("ZONE_{}", to_correct_id(&tt, &fare_rule.destination))
+            ),
             fare: to_correct_id(&tt, &fare_rule.fare).to_string(),
             origin: format!("ZONE_{}", to_correct_id(&tt, &fare_rule.origin)),
             destination: format!("ZONE_{}", to_correct_id(&tt, &fare_rule.destination)),
@@ -593,6 +612,7 @@ pub fn align_stop_time(
     for trip in gtfs.trips.values() {
         for stop_time in &trip.stop_times {
             stop_times.push(KdiStopTime {
+                id: format!("{}_{}", to_correct_id(&tt, &trip.id), to_correct_id(&tt, &stop_time.stop.id)),
                 trip: to_correct_id(&tt, &trip.id),
                 stop: to_correct_id(&tt, &stop_time.stop.id),
                 arrival: stop_time.arrival_time.map(|time| {

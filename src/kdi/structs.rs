@@ -18,7 +18,7 @@ pub struct KdiLocation {
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "CalendarException"))]
 pub struct KdiCalendarException {
-    #[serde(rename(serialize = "calendarId"))]
+    pub id: String,
     pub calendar: String,
     pub date: String,
     pub exception: KdiExceptionEnum,
@@ -55,6 +55,8 @@ pub struct KdiAgency<'a> {
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename(serialize = "FareRule"))]
 pub struct KdiFareRule {
+    #[serde(skip_deserializing)]
+    pub id: String,
     #[serde(rename(deserialize = "FARE_ID"))]
     pub fare: String,
     #[serde(rename(deserialize = "ORIGIN_ID"), default = "kdi_fare_rule_default")]
@@ -133,6 +135,7 @@ where
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "StopTime"))]
 pub struct KdiStopTime {
+    pub id: String,
     pub trip: String,
     pub stop: String,
     pub arrival: Option<String>,
