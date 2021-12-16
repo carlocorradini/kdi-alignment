@@ -2,7 +2,7 @@
     {
         "name": "Borgata - Trento-Malè",
         "address": "Piazza San Gottardo",
-        "id": "Borgata - Trento-Malè - Mezzocorona",
+        "id": "Borgata - Trento-Male - Mezzocorona",
         "bikes": 0,
         "slots": 0,
         "totalSlots": 0,
@@ -26,7 +26,7 @@
     {
         "name": "Stazione TN-Malè - RFI",
         "address": "Piazza Trento",
-        "id": "Stazione TN-Malè - RFI - Mezzocorona",
+        "id": "Stazione TN-Male - RFI - Mezzocorona",
         "bikes": 0,
         "slots": 0,
         "totalSlots": 0,

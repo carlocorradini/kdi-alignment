@@ -74,7 +74,7 @@
     {
         "name": "10.08 Università",
         "address": "Via Rosmini 50 - Università",
-        "id": "10.08 Università - Trento",
+        "id": "10.08 Universita - Trento",
         "bikes": 2,
         "slots": 12,
         "totalSlots": 15,
@@ -506,7 +506,7 @@
     {
         "name": "11.02 Stazione TN-Malè",
         "address": "via San Francesco",
-        "id": "11.02 Stazione TN-Malè - Trento",
+        "id": "11.02 Stazione TN-Male - Trento",
         "bikes": 0,
         "slots": 0,
         "totalSlots": 0,
@@ -554,7 +554,7 @@
     {
         "name": "12.03 Stazione TN-Malè",
         "address": "piazza Trento",
-        "id": "12.03 Stazione TN-Malè - Trento",
+        "id": "12.03 Stazione TN-Male - Trento",
         "bikes": 3,
         "slots": 15,
         "totalSlots": 18,
@@ -650,7 +650,7 @@
     {
         "name": "15.04 Stazione TN-Malè",
         "address": "via Nazionale",
-        "id": "15.04 Stazione TN-Malè - Trento",
+        "id": "15.04 Stazione TN-Male - Trento",
         "bikes": 1,
         "slots": 10,
         "totalSlots": 11,
@@ -1070,7 +1070,7 @@
     {
         "name": "25.02 Cornalè",
         "address": "via Cornalè",
-        "id": "25.02 Cornalè - Trento",
+        "id": "25.02 Cornale - Trento",
         "bikes": 0,
         "slots": 5,
         "totalSlots": 5,

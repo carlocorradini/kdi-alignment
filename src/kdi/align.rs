@@ -400,6 +400,7 @@ pub fn align_parking_stop_car_sharing(
         let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
 
         parking_stops.push(KdiParkingStop {
+            id: format!("CS_{}", i),
             location: format!("CS_{}", i),
             ptype: KdiParkingStopEnum::CarSharing,
             address: datas.find(|d| d.name == "via").unwrap().value.clone(),
@@ -420,6 +421,7 @@ pub fn align_parking_stop_centro_in_bici(
         let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
 
         parking_stops.push(KdiParkingStop {
+            id: format!("CIB_{}", i),
             location: format!("CIB_{}", i),
             ptype: KdiParkingStopEnum::BikeSharing,
             address: datas.find(|d| d.name == "desc").unwrap().value.clone(),
@@ -450,6 +452,7 @@ pub fn align_parking_stop_parcheggio_protetto_biciclette(
         let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
 
         parking_stops.push(KdiParkingStop {
+            id: format!("PPB_{}", i),
             location: format!("PPB_{}", i),
             ptype: KdiParkingStopEnum::BikeParking,
             address: datas.find(|d| d.name == "via").unwrap().value.clone(),
@@ -470,6 +473,7 @@ pub fn align_parking_stop_taxi(
         let mut datas = placemark.extended_data.schema_data.simple_datas.iter();
 
         parking_stops.push(KdiParkingStop {
+            id: format!("TX_{}", i),
             location: format!("TX_{}", i),
             ptype: KdiParkingStopEnum::Taxi,
             address: datas.find(|d| d.name == "indirizzo").unwrap().value.clone(),
@@ -566,6 +570,7 @@ pub fn align_bike_sharing_stop(
     for bs in bike_sharing {
         assert!(bs.position.len() == 2);
         bike_sharing_stops.push(KdiBikeSharingStop {
+            id: format!("BS_{}", bs.id),
             location: format!("BS_{}", bs.id),
             ptype: KdiParkingStopEnum::BikeSharing,
             address: bs.address.clone(),
@@ -585,6 +590,7 @@ pub fn align_public_transport_stop(
 ) -> Result<(), Box<dyn Error>> {
     for stop in gtfs.stops.values() {
         public_transport_stops.push(KdiPublicTransportStop {
+            id: to_correct_id(&tt, &stop.id),
             location: to_correct_id(&tt, &stop.id),
             zone: if stop.zone_id.is_some() {
                 Some(format!(
@@ -612,7 +618,11 @@ pub fn align_stop_time(
     for trip in gtfs.trips.values() {
         for stop_time in &trip.stop_times {
             stop_times.push(KdiStopTime {
-                id: format!("{}_{}", to_correct_id(&tt, &trip.id), to_correct_id(&tt, &stop_time.stop.id)),
+                id: format!(
+                    "{}_{}",
+                    to_correct_id(&tt, &trip.id),
+                    to_correct_id(&tt, &stop_time.stop.id)
+                ),
                 trip: to_correct_id(&tt, &trip.id),
                 stop: to_correct_id(&tt, &stop_time.stop.id),
                 arrival: stop_time.arrival_time.map(|time| {

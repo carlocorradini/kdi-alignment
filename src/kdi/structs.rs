@@ -92,6 +92,7 @@ pub struct KdiFare {
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "ParkingStop"))]
 pub struct KdiParkingStop {
+    pub id: String,
     pub location: String,
     #[serde(rename(serialize = "type"))]
     pub ptype: KdiParkingStopEnum,
@@ -103,6 +104,7 @@ pub struct KdiParkingStop {
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "BikeSharingStop"))]
 pub struct KdiBikeSharingStop {
+    pub id: String,
     pub location: String,
     #[serde(rename(serialize = "type"))]
     pub ptype: KdiParkingStopEnum,
@@ -117,6 +119,7 @@ pub struct KdiBikeSharingStop {
 #[derive(Debug, Serialize)]
 #[serde(rename(serialize = "PublicTransportStop"))]
 pub struct KdiPublicTransportStop {
+    pub id: String,
     pub location: String,
     pub zone: Option<String>,
     #[serde(serialize_with = "ptype_serialization", rename(serialize="type"))]
